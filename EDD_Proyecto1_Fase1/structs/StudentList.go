@@ -118,7 +118,7 @@ func (list *StudentList) AuthUser(id int, password string) *Student {
 func (list *StudentList) Graphviz() {
 
 	aux := list.Head
-	content := "digraph StudentList{ rankdir=RL; node [shape=record];"
+	content := "digraph StudentList{  node [shape=rect];"
 	counter := 0
 
 	// Null nodes
@@ -156,14 +156,28 @@ func (list *StudentList) Graphviz() {
 		// binnacle
 
 		if aux.Data.Binnacle.Size > 0 {
-			content += "student_" + strconv.Itoa(counter) + " -> " + aux.Data.Binnacle.Graphviz(strconv.Itoa(aux.Data.Id)) + ";"
+			content += "student_" + strconv.Itoa(counter) + " -> " + aux.Data.Binnacle.Top.GetNodeName(strconv.Itoa(aux.Data.Id), 0) + ";"
+
+			content += "subgraph cluster_" + strconv.Itoa(aux.Data.Id) + "_" + strconv.Itoa(counter) + aux.Data.Binnacle.Graphviz(strconv.Itoa(aux.Data.Id))
 		}
 
 		aux = aux.Next
 		counter++
 	}
 
-	content += "}"
+	// rank
+
+	content += "{rank = same; null_left; null_right;"
+	aux = list.Head
+	counter = 0
+
+	for aux != nil {
+		content += "student_" + strconv.Itoa(counter) + ";"
+		aux = aux.Next
+		counter++
+	}
+
+	content += "} }"
 
 	GenerateImage("StudentList.dot", content, "StudentList.png")
 

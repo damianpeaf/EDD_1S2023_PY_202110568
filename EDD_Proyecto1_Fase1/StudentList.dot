@@ -1,45 +1,5 @@
-digraph StudentList{
-
-node [shape=rect];
-
-
-null_left [label="NULL"];
-null_right [label="NULL"];
-
-student_0[label = "123 123 123"];
-student_1[label = "124 124 124"];
-
-
-null_left -> student_0;
-student_0 -> student_1;
-
-student_1 -> student_0;
-student_1 -> null_right;
-
-{rank=same; null_left; student_0; student_1; null_right; }
-
-subgraph cluster_binacle_123{ 
-    rankdir=TB;
-    node [shape=record];
-
-    binnacle_123_0 [label= "Inicio de sesión 21/02/2023 12:42:36"];
-    binnacle_123_1 [label= "Inicio de sesión 21/02/2023 12:42:31"];
-
-    binnacle_123_0 -> binnacle_123_1;
-
-};
-
-
-subgraph cluster_binacle_124{ 
-    rankdir=TB;
-    node [shape=record];
-    
-    binnacle_124_0 [label= "Inicio de sesión 21/02/2023 12:42:40"];
-};
-
-student_0 -> binnacle_123_0
-student_1 -> binnacle_124_0;
-
-
-
-}
+digraph StudentList{  node [shape=rect];null_left [label="NULL"];null_right [label="NULL"];student_0[label = "1 1 1"];student_1[label = "2 2 2"];null_left -> student_0;student_0 -> student_1;student_0 -> binnacle_1_0;subgraph cluster_1_0{ rankdir=TB; node [shape=record];binnacle_1_0 [label= "Inicio de sesión\n21/02/2023 13:41:23" ];
+binnacle_1_1 [label= "Inicio de sesión\n21/02/2023 13:41:21" ];
+binnacle_1_0 -> binnacle_1_1;
+}student_1 -> student_0;student_1 -> null_right;student_1 -> binnacle_2_0;subgraph cluster_2_1{ rankdir=TB; node [shape=record];binnacle_2_0 [label= "Inicio de sesión\n21/02/2023 13:41:24" ];
+}{rank = same; null_left; null_right;student_0;student_1;} }

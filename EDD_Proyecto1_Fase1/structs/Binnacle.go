@@ -49,7 +49,7 @@ func (record *BinnacleRecord) GetNodeName(userId string, counter int) string {
 }
 
 func (record *BinnacleRecord) GetNodeLabel() string {
-	return " \"" + record.Action + "\n\"" + record.Time.Format("02/01/2006 15:04:05")
+	return " \"" + record.Action + "\\n" + record.Time.Format("02/01/2006 15:04:05") + "\" "
 }
 
 func (binnacle *Binnacle) Graphviz(userId string) string {
