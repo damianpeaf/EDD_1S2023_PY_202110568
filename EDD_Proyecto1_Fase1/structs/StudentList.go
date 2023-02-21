@@ -1,5 +1,9 @@
 package structs
 
+import (
+	"strconv"
+)
+
 type StudentList struct {
 	Head *StudentNode
 	Tail *StudentNode
@@ -94,5 +98,73 @@ func (list *StudentList) Print() {
 		println("********************************")
 		aux = aux.Next
 	}
+
+}
+
+func (list *StudentList) AuthUser(id int, password string) bool {
+
+	aux := list.Head
+
+	for aux != nil && aux.Data.Id != id {
+		aux = aux.Next
+	}
+
+	if aux != nil && aux.Data.Password == password {
+		return true
+	}
+	return false
+}
+
+func (list *StudentList) Graphviz() {
+
+	aux := list.Head
+	content := "digraph StudentList{ rankdir=RL; node [shape=record];"
+	counter := 0
+
+	// Null nodes
+
+	content += "null_left [label=\"NULL\"];"
+	content += "null_right [label=\"NULL\"];"
+
+	// Student nodes
+	for aux != nil {
+		content += "student_" + strconv.Itoa(counter) + "[label = \"" + strconv.Itoa(aux.Data.Id) + " " + aux.Data.Name + " " + aux.Data.LastName + "\"];"
+		aux = aux.Next
+		counter++
+	}
+
+	// Edges
+
+	aux = list.Head
+	counter = 0
+
+	for aux != nil {
+
+		// List nodes
+		if aux.Prev != nil {
+			content += "student_" + strconv.Itoa(counter) + " -> student_" + strconv.Itoa(counter-1) + ";"
+		} else {
+			content += "null_left -> student_" + strconv.Itoa(counter) + ";"
+		}
+
+		if aux.Next != nil {
+			content += "student_" + strconv.Itoa(counter) + " -> student_" + strconv.Itoa(counter+1) + ";"
+		} else {
+			content += "student_" + strconv.Itoa(counter) + " -> null_right;"
+		}
+
+		// binnacle
+
+		if aux.Data.Binnacle.Size > 0 {
+			content += "student_" + strconv.Itoa(counter) + " -> " + aux.Data.Binnacle.Graphviz(strconv.Itoa(aux.Data.Id)) + ";"
+		}
+
+		aux = aux.Next
+		counter++
+	}
+
+	content += "}"
+
+	GenerateImage("./reports/StudentList.dot", content, "./reports/StudentList.png")
 
 }

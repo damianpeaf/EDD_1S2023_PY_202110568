@@ -1,6 +1,9 @@
 package structs
 
-import "time"
+import (
+	"strconv"
+	"time"
+)
 
 type BinnacleRecord struct {
 	Action string
@@ -39,4 +42,38 @@ func (binnacle *Binnacle) Pop() BinnacleRecord {
 	binnacle.Size--
 
 	return *record
+}
+
+func (record *BinnacleRecord) GetNodeName(userId string, counter int) string {
+	return "binnacle_" + userId + "_" + strconv.Itoa(counter)
+}
+
+func (record *BinnacleRecord) GetNodeLabel() string {
+	return " \"" + record.Action + "\n\"" + record.Time.Format("02/01/2006 15:04:05")
+}
+
+func (binnacle *Binnacle) Graphviz(userId string) string {
+
+	// Declare nodes
+
+	aux := binnacle.Top
+	content := "{ rankdir=TB; node [shape=record];"
+	counter := 0
+
+	for aux != nil {
+		content += aux.GetNodeName(userId, counter) + " [label=" + aux.GetNodeLabel() + "];\n"
+		counter++
+	}
+	// Declare edges
+
+	aux = binnacle.Top
+	counter = 0
+
+	for aux.Next != nil {
+		content += aux.GetNodeName(userId, counter) + " -> " + aux.GetNodeName(userId, counter+1) + ";\n"
+		counter++
+	}
+
+	content += "}"
+	return content
 }

@@ -1,11 +1,11 @@
 package main
 
 import (
-	"EDD_Proyecto1_Fase1/interface/admin"
+	"EDD_Proyecto1_Fase1/interface/auth"
 )
 
 func main() {
 
-	admin.AdminDashbaord()
+	auth.Login()
 
 }

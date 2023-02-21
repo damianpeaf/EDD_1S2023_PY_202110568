@@ -5,14 +5,14 @@ import (
 	"fmt"
 )
 
-var students = structs.StudentList{}
+var Students = structs.StudentList{}
 
 func AcceptUserView() {
 
 	option := 0
 	end := false
 
-	currentStudent := pendingStudents.Head
+	currentStudent := PendingStudents.Head
 
 	for !end && currentStudent != nil {
 
@@ -31,11 +31,11 @@ func AcceptUserView() {
 
 		switch option {
 		case 1:
-			students.Add(pendingStudents.Dequeue())
-			currentStudent = pendingStudents.Head
+			Students.Add(PendingStudents.Dequeue())
+			currentStudent = PendingStudents.Head
 		case 2:
-			pendingStudents.Dequeue()
-			currentStudent = pendingStudents.Head
+			PendingStudents.Dequeue()
+			currentStudent = PendingStudents.Head
 		case 3:
 			end = true
 		default:
@@ -45,7 +45,7 @@ func AcceptUserView() {
 
 	}
 
-	if pendingStudents.Size == 0 {
+	if PendingStudents.Size == 0 {
 		fmt.Println("\033[31mNo hay estudiantes pendientes\033[0m")
 	}
 
@@ -54,7 +54,7 @@ func AcceptUserView() {
 func printAcceptUserView() {
 
 	fmt.Println("--- ACEPTAR USUARIOS ---")
-	fmt.Println("Estudiantes pendientes: ", pendingStudents.Size)
-	fmt.Println("Estudiantes registrados: ", students.Size)
+	fmt.Println("Estudiantes pendientes: ", PendingStudents.Size)
+	fmt.Println("Estudiantes registrados: ", Students.Size)
 
 }

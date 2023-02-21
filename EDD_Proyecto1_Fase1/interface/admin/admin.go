@@ -24,12 +24,12 @@ func AdminDashbaord() {
 		case 3:
 			AddUserView()
 		case 4:
-			// Carga masiva de estudiantes
 			// break
 		case 5:
-			// Cerrar sesión
 			end = true
-			// break
+		case 6:
+			Students.Graphviz()
+
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
 			AdminDashbaord()

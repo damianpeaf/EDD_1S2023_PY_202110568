@@ -5,7 +5,7 @@ import (
 	"fmt"
 )
 
-var pendingStudents = structs.StudentQueue{}
+var PendingStudents = structs.StudentQueue{}
 
 func AddUserView() {
 
@@ -34,7 +34,7 @@ func AddUserView() {
 		Binnacle: &structs.Binnacle{},
 	}
 
-	pendingStudents.Enqueue(newStudent)
+	PendingStudents.Enqueue(newStudent)
 
 	fmt.Println("Usuario registrado exitosamente!")
 

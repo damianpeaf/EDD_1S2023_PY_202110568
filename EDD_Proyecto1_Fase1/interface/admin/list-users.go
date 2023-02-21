@@ -6,5 +6,5 @@ import (
 
 func ListUsersView() {
 	fmt.Println("*** Estudiantes del sistema: ***")
-	students.Print()
+	Students.Print()
 }
