@@ -76,7 +76,7 @@ func (list *StudentList) Delete(id int) {
 
 }
 
-func (list *StudentList) Search(id int) *StudentNode {
+func (list *StudentList) Search(id int) *Student {
 
 	aux := list.Head
 
@@ -84,7 +84,7 @@ func (list *StudentList) Search(id int) *StudentNode {
 		aux = aux.Next
 	}
 
-	return aux
+	return &aux.Data
 
 }
 
@@ -101,7 +101,7 @@ func (list *StudentList) Print() {
 
 }
 
-func (list *StudentList) AuthUser(id int, password string) bool {
+func (list *StudentList) AuthUser(id int, password string) *Student {
 
 	aux := list.Head
 
@@ -110,9 +110,9 @@ func (list *StudentList) AuthUser(id int, password string) bool {
 	}
 
 	if aux != nil && aux.Data.Password == password {
-		return true
+		return &aux.Data
 	}
-	return false
+	return nil
 }
 
 func (list *StudentList) Graphviz() {
@@ -165,6 +165,6 @@ func (list *StudentList) Graphviz() {
 
 	content += "}"
 
-	GenerateImage("./reports/StudentList.dot", content, "./reports/StudentList.png")
+	GenerateImage("StudentList.dot", content, "StudentList.png")
 
 }

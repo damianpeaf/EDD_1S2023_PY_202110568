@@ -63,6 +63,7 @@ func (binnacle *Binnacle) Graphviz(userId string) string {
 	for aux != nil {
 		content += aux.GetNodeName(userId, counter) + " [label=" + aux.GetNodeLabel() + "];\n"
 		counter++
+		aux = aux.Next
 	}
 	// Declare edges
 
@@ -72,6 +73,7 @@ func (binnacle *Binnacle) Graphviz(userId string) string {
 	for aux.Next != nil {
 		content += aux.GetNodeName(userId, counter) + " -> " + aux.GetNodeName(userId, counter+1) + ";\n"
 		counter++
+		aux = aux.Next
 	}
 
 	content += "}"

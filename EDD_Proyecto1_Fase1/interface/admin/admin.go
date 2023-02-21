@@ -1,10 +1,11 @@
 package admin
 
 import (
+	"EDD_Proyecto1_Fase1/structs"
 	"fmt"
 )
 
-func AdminDashbaord() {
+func AdminDashbaord(relatedAdmin *structs.Admin) {
 
 	option := 0
 	end := false
@@ -32,7 +33,7 @@ func AdminDashbaord() {
 
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
-			AdminDashbaord()
+			AdminDashbaord(relatedAdmin)
 		}
 	}
 

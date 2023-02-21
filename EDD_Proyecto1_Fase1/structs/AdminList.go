@@ -94,3 +94,19 @@ func (list *AdminList) Print() {
 	}
 
 }
+
+func (list *AdminList) ValidateAdmin(username, password string) *Admin {
+
+	aux := list.Head
+
+	for aux != nil && aux.Data.Username != username && aux.Data.Password != password {
+		aux = aux.Next
+	}
+
+	if aux != nil {
+		return &aux.Data
+	}
+
+	return nil
+
+}

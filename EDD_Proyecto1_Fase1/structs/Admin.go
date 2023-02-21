@@ -2,8 +2,7 @@ package structs
 
 type Admin struct {
 	Id       int
-	Name     string
-	LastName string
+	Username string
 	Password string
 	Binnacle *Binnacle
 }
