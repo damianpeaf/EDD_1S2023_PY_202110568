@@ -17,28 +17,44 @@ func (list *StudentList) Add(student Student) {
 		list.Head = newNode
 		list.Tail = newNode
 	} else {
-		// Add depending on the id
+		// Verify if the student is already in the list
 
 		aux := list.Head
 
-		for aux.Next != nil && aux.Data.Id < student.Id {
+		for aux != nil && aux.Data.Id != student.Id {
 			aux = aux.Next
 		}
 
-		if aux.Data.Id < student.Id {
+		if aux != nil {
+			return
+		}
+
+		// Add depending on the id, ascending order
+
+		aux = list.Head
+
+		// Find the node
+		for aux != nil && aux.Data.Id < student.Id {
+			aux = aux.Next
+		}
+
+		if aux == nil {
 			// Add at the end
-			aux.Next = newNode
-			newNode.Prev = aux
+			list.Tail.Next = newNode
+			newNode.Prev = list.Tail
 			list.Tail = newNode
+
+		} else if aux.Prev == nil {
+
+			// Add at the beginning
+			list.Head.Prev = newNode
+			newNode.Next = list.Head
+			list.Head = newNode
+
 		} else {
 			// Add in the middle
-			if aux.Prev != nil {
-				aux.Prev.Next = newNode
-				newNode.Prev = aux.Prev
-			} else {
-				// Add at the beginning
-				list.Head = newNode
-			}
+			aux.Prev.Next = newNode
+			newNode.Prev = aux.Prev
 			newNode.Next = aux
 			aux.Prev = newNode
 		}
@@ -179,6 +195,6 @@ func (list *StudentList) Graphviz() {
 
 	content += "} }"
 
-	GenerateImage("StudentList.dot", content, "StudentList.png")
+	GenerateImage("StudentList", content)
 
 }

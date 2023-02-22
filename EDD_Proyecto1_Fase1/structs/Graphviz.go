@@ -8,10 +8,11 @@ import (
 )
 
 func createFile(filename string) {
-	var _, err = os.Stat(filename)
+	path := "reports/" + filename + ".dot"
+	var _, err = os.Stat(path)
 
 	if os.IsNotExist(err) {
-		var _, err = os.Create(filename)
+		var _, err = os.Create(path)
 		if err != nil {
 			return
 		}
@@ -20,7 +21,7 @@ func createFile(filename string) {
 
 func writeDotFile(filename string, dot string) {
 	createFile(filename)
-	var file, err = os.OpenFile(filename, os.O_RDWR, 0644)
+	var file, err = os.OpenFile("reports/"+filename+".dot", os.O_RDWR, 0644)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -37,8 +38,9 @@ func writeDotFile(filename string, dot string) {
 	}
 }
 
-func GenerateImage(filename string, dot string, imageName string) {
+func GenerateImage(filename string, dot string) {
 	writeDotFile(filename, dot)
-	cmd, _ := exec.Command("dot", "-Tpng", filename, "-o", filename+".png").Output()
-	_ = ioutil.WriteFile(imageName, cmd, os.FileMode(0777))
+	path, _ := exec.LookPath("dot")
+	cmd, _ := exec.Command(path, "-Tjpg", "reports/"+filename+".dot").Output()
+	_ = ioutil.WriteFile("reports/"+filename+".jpg", cmd, os.FileMode(0777))
 }

@@ -43,6 +43,9 @@ func AcceptUserView() {
 			AcceptUserView()
 		}
 
+		Students.Graphviz()
+		PendingStudents.Graphviz()
+
 	}
 
 	if PendingStudents.Size == 0 {

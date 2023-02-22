@@ -1,5 +1,0 @@
-digraph StudentList{  node [shape=rect];null_left [label="NULL"];null_right [label="NULL"];student_0[label = "1 1 1"];student_1[label = "2 2 2"];null_left -> student_0;student_0 -> student_1;student_0 -> binnacle_1_0;subgraph cluster_1_0{ rankdir=TB; node [shape=record];binnacle_1_0 [label= "Inicio de sesión\n21/02/2023 13:41:23" ];
-binnacle_1_1 [label= "Inicio de sesión\n21/02/2023 13:41:21" ];
-binnacle_1_0 -> binnacle_1_1;
-}student_1 -> student_0;student_1 -> null_right;student_1 -> binnacle_2_0;subgraph cluster_2_1{ rankdir=TB; node [shape=record];binnacle_2_0 [label= "Inicio de sesión\n21/02/2023 13:41:24" ];
-}{rank = same; null_left; null_right;student_0;student_1;} }

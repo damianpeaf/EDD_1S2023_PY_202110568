@@ -28,9 +28,6 @@ func AdminDashbaord(relatedAdmin *structs.Admin) {
 			// break
 		case 5:
 			end = true
-		case 6:
-			Students.Graphviz()
-
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
 			AdminDashbaord(relatedAdmin)

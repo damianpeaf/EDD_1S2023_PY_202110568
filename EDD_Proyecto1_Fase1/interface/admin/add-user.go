@@ -37,6 +37,7 @@ func AddUserView() {
 	PendingStudents.Enqueue(newStudent)
 
 	fmt.Println("Usuario registrado exitosamente!")
+	PendingStudents.Graphviz()
 
 }
 

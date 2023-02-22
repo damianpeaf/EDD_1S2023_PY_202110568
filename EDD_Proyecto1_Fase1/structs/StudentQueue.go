@@ -1,5 +1,9 @@
 package structs
 
+import (
+	"strconv"
+)
+
 type StudentQueue struct {
 	Head *StudentNode
 	Tail *StudentNode
@@ -13,6 +17,18 @@ func (queue *StudentQueue) Enqueue(student Student) {
 		queue.Head = newNode
 		queue.Tail = newNode
 	} else {
+		// Verify if the student is already in the queue
+
+		aux := queue.Head
+
+		for aux != nil && aux.Data.Id != student.Id {
+			aux = aux.Next
+		}
+
+		if aux != nil {
+			return
+		}
+
 		queue.Tail.Next = newNode
 		queue.Tail = newNode
 	}
@@ -39,4 +55,32 @@ func (queue *StudentQueue) Print() {
 		println(aux.Data.Name)
 		aux = aux.Next
 	}
+}
+
+func (queue *StudentQueue) Graphviz() {
+
+	aux := queue.Head
+	content := "digraph G {\n node [shape=box];\nrankdir=LR;\n"
+
+	// Declaring nodes
+
+	for aux != nil {
+		content += "Node_" + strconv.Itoa(aux.Data.Id) + "[label=\"" + strconv.Itoa(aux.Data.Id) + "\\n" + aux.Data.Name + " " + aux.Data.LastName + "\"];\n"
+		aux = aux.Next
+	}
+
+	// Declaring edges
+
+	aux = queue.Head
+
+	for aux != nil && aux.Next != nil {
+		if aux.Next != nil {
+			content += "Node_" + strconv.Itoa(aux.Data.Id) + " -> Node_" + strconv.Itoa(aux.Next.Data.Id) + ";\n"
+		}
+		aux = aux.Next
+	}
+
+	content += "}"
+
+	GenerateImage("StudentQueue", content)
 }
