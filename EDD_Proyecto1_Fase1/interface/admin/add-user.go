@@ -7,7 +7,7 @@ import (
 
 var PendingStudents = structs.StudentQueue{}
 
-func AddUserView() {
+func AddUserView(relatedAdmin *structs.Admin) {
 
 	printAddUserView()
 
@@ -38,6 +38,7 @@ func AddUserView() {
 
 	fmt.Println("Usuario registrado exitosamente!")
 	PendingStudents.Graphviz()
+	relatedAdmin.AddRecord("Se ha agregado el usuario " + name + " a la lista de espera")
 
 }
 

@@ -7,7 +7,7 @@ import (
 
 var Students = structs.StudentList{}
 
-func AcceptUserView() {
+func AcceptUserView(relatedAdmin *structs.Admin) {
 
 	option := 0
 	end := false
@@ -31,16 +31,19 @@ func AcceptUserView() {
 
 		switch option {
 		case 1:
-			Students.Add(PendingStudents.Dequeue())
+			acceptedStudent := PendingStudents.Dequeue()
+			Students.Add(acceptedStudent)
+			relatedAdmin.AddRecord("Se aceptó al estudiante " + acceptedStudent.Name + " " + acceptedStudent.LastName)
 			currentStudent = PendingStudents.Head
 		case 2:
-			PendingStudents.Dequeue()
+			revokeStudent := PendingStudents.Dequeue()
+			relatedAdmin.AddRecord("Se rechazó al estudiante " + revokeStudent.Name + " " + revokeStudent.LastName)
 			currentStudent = PendingStudents.Head
 		case 3:
 			end = true
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
-			AcceptUserView()
+			AcceptUserView(relatedAdmin)
 		}
 
 		Students.Graphviz()

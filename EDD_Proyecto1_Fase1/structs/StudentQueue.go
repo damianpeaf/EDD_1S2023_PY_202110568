@@ -65,7 +65,7 @@ func (queue *StudentQueue) Graphviz() {
 	// Declaring nodes
 
 	for aux != nil {
-		content += "Node_" + strconv.Itoa(aux.Data.Id) + "[label=\"" + strconv.Itoa(aux.Data.Id) + "\\n" + aux.Data.Name + " " + aux.Data.LastName + "\"];\n"
+		content += "student_" + strconv.Itoa(aux.Data.Id) + "[label=\"" + strconv.Itoa(aux.Data.Id) + "\\n" + aux.Data.Name + " " + aux.Data.LastName + "\"];\n"
 		aux = aux.Next
 	}
 
@@ -75,7 +75,7 @@ func (queue *StudentQueue) Graphviz() {
 
 	for aux != nil && aux.Next != nil {
 		if aux.Next != nil {
-			content += "Node_" + strconv.Itoa(aux.Data.Id) + " -> Node_" + strconv.Itoa(aux.Next.Data.Id) + ";\n"
+			content += "student_" + strconv.Itoa(aux.Data.Id) + " -> student_" + strconv.Itoa(aux.Next.Data.Id) + ";\n"
 		}
 		aux = aux.Next
 	}

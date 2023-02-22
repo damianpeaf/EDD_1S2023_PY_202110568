@@ -1,0 +1,19 @@
+digraph G {
+{ rankdir=TB; node [shape=record];binnacle_admin_0 [label= "Se aceptó al estudiante Ebany Larios\n22/02/2023 09:55:55" ];
+binnacle_admin_1 [label= "Se aceptó al estudiante Cristian Suy\n22/02/2023 09:55:53" ];
+binnacle_admin_2 [label= "Se aceptó al estudiante Leonardo Martinez\n22/02/2023 09:55:52" ];
+binnacle_admin_3 [label= "Se aceptó al estudiante nombre \n22/02/2023 09:55:51" ];
+binnacle_admin_4 [label= "Se ha agregado el usuario Ebany Larios a la lista de espera [Carga masiva]\n22/02/2023 09:55:28" ];
+binnacle_admin_5 [label= "Se ha agregado el usuario Cristian Suy a la lista de espera [Carga masiva]\n22/02/2023 09:55:27" ];
+binnacle_admin_6 [label= "Se ha agregado el usuario Leonardo Martinez a la lista de espera [Carga masiva]\n22/02/2023 09:55:27" ];
+binnacle_admin_7 [label= "Se ha agregado el usuario nombre a la lista de espera [Carga masiva]\n22/02/2023 09:55:27" ];
+binnacle_admin_8 [label= "Inicio de sesión\n22/02/2023 09:55:19" ];
+binnacle_admin_0 -> binnacle_admin_1;
+binnacle_admin_1 -> binnacle_admin_2;
+binnacle_admin_2 -> binnacle_admin_3;
+binnacle_admin_3 -> binnacle_admin_4;
+binnacle_admin_4 -> binnacle_admin_5;
+binnacle_admin_5 -> binnacle_admin_6;
+binnacle_admin_6 -> binnacle_admin_7;
+binnacle_admin_7 -> binnacle_admin_8;
+}}

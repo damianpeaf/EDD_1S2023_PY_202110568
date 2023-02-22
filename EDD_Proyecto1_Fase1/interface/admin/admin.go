@@ -11,7 +11,6 @@ func AdminDashbaord(relatedAdmin *structs.Admin) {
 	end := false
 
 	for !end {
-		fmt.Println("\n")
 		printAdminDashboard()
 
 		fmt.Print("Ingrese una opción: ")
@@ -19,18 +18,17 @@ func AdminDashbaord(relatedAdmin *structs.Admin) {
 
 		switch option {
 		case 1:
-			AcceptUserView()
+			AcceptUserView(relatedAdmin)
 		case 2:
 			ListUsersView()
 		case 3:
-			AddUserView()
+			AddUserView(relatedAdmin)
 		case 4:
-			// break
+			bulkLoadView(relatedAdmin)
 		case 5:
 			end = true
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
-			AdminDashbaord(relatedAdmin)
 		}
 	}
 

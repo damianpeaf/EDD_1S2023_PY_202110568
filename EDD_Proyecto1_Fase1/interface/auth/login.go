@@ -68,7 +68,7 @@ func loginForm() {
 	relatedAdmin := AdminList.ValidateAdmin(username, password)
 
 	if relatedAdmin != nil {
-		relatedAdmin.Binnacle.Push("Inicio de sesión")
+		relatedAdmin.AddRecord("Inicio de sesión")
 		admin.AdminDashbaord(relatedAdmin)
 	}
 
