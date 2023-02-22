@@ -1,0 +1,7 @@
+{
+	"alumnos": [
+		{"nombre":"1 1","carnet":1,"password":"1","Carpeta_Raiz":"/" },
+
+		{"nombre":"2 2","carnet":2,"password":"2","Carpeta_Raiz":"/" }
+	]
+}

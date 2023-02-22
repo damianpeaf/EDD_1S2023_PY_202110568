@@ -33,6 +33,7 @@ func AcceptUserView(relatedAdmin *structs.Admin) {
 		case 1:
 			acceptedStudent := PendingStudents.Dequeue()
 			Students.Add(acceptedStudent)
+			Students.Json()
 			relatedAdmin.AddRecord("Se aceptó al estudiante " + acceptedStudent.Name + " " + acceptedStudent.LastName)
 			currentStudent = PendingStudents.Head
 		case 2:

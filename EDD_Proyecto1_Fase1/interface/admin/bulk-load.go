@@ -35,9 +35,15 @@ func bulkLoadView(relatedAdmin *structs.Admin) {
 	defer file.Close()
 
 	reader := csv.NewReader(file)
+	lineCount := 0
 
 	for {
 		record, err := reader.Read()
+
+		if lineCount == 0 {
+			lineCount++
+			continue
+		}
 		if err != nil {
 			if err.Error() == "EOF" {
 				break
@@ -59,7 +65,7 @@ func bulkLoadView(relatedAdmin *structs.Admin) {
 			Id:       id,
 			Name:     name,
 			LastName: lastname,
-			Password: record[1],
+			Password: record[2],
 			Binnacle: &structs.Binnacle{},
 		}
 		PendingStudents.Enqueue(newStudent)

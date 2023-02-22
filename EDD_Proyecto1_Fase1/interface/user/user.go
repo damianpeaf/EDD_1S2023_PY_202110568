@@ -7,9 +7,6 @@ import (
 
 func UserDasboard(student *structs.Student) {
 
-}
+	fmt.Println("\nBienvenido", student.Name, student.LastName, "!")
 
-func printUserDashboard() {
-
-	fmt.Println("")
 }

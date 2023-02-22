@@ -1,6 +1,7 @@
 package structs
 
 import (
+	"os"
 	"strconv"
 )
 
@@ -196,5 +197,44 @@ func (list *StudentList) Graphviz() {
 	content += "} }"
 
 	GenerateImage("StudentList", content)
+
+}
+
+func (list *StudentList) Json() {
+
+	aux := list.Head
+	jsonString := "{"
+	jsonString += "\n\t\"alumnos\": ["
+
+	for aux != nil {
+
+		jsonString += "\n\t\t" + aux.Data.Json()
+
+		if aux.Next != nil {
+			jsonString += ",\n"
+		}
+
+		aux = aux.Next
+	}
+
+	jsonString += "\n\t]"
+	jsonString += "\n}"
+
+	file, err := os.Create("reports/Students.json")
+	if err != nil {
+		return
+	}
+
+	defer file.Close()
+
+	_, err = file.WriteString(jsonString)
+	if err != nil {
+		return
+	}
+
+	err = file.Sync()
+	if err != nil {
+		return
+	}
 
 }

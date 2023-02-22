@@ -80,6 +80,7 @@ func loginForm() {
 		relatedUser := admin.Students.AuthUser(id, password)
 		if relatedUser != nil {
 			relatedUser.Binnacle.Push("Inicio de sesión")
+			admin.Students.Graphviz()
 			user.UserDasboard(relatedUser)
 		} else {
 			fmt.Println("Nombre de usuario o contraseña incorrectos")
