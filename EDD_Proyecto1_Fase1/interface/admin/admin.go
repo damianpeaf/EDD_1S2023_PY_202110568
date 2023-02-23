@@ -27,6 +27,9 @@ func AdminDashbaord(relatedAdmin *structs.Admin) {
 			bulkLoadView(relatedAdmin)
 		case 5:
 			end = true
+			relatedAdmin.AddRecord("Cerró sesión")
+		case 6:
+			ListPendingUsers()
 		default:
 			fmt.Println("\033[31mOpción inválida\033[0m")
 		}
@@ -64,5 +67,6 @@ func printAdminDashboard() {
 	fmt.Println("3. Registrar nuevo estudiante:")
 	fmt.Println("4. Carga masiva de estudiantes:")
 	fmt.Println("5. Cerrar sesión:")
+	fmt.Println("6. Listar usuarios pendientes:")
 
 }
