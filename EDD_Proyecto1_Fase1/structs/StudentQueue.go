@@ -60,7 +60,7 @@ func (queue *StudentQueue) Print() {
 func (queue *StudentQueue) Graphviz() {
 
 	aux := queue.Head
-	content := "digraph G {\n node [shape=box];\nrankdir=LR;\n"
+	content := "digraph G {\n node [shape=box];\nrankdir=RL;\n"
 
 	// Declaring nodes
 
@@ -75,7 +75,7 @@ func (queue *StudentQueue) Graphviz() {
 
 	for aux != nil && aux.Next != nil {
 		if aux.Next != nil {
-			content += "student_" + strconv.Itoa(aux.Data.Id) + " -> student_" + strconv.Itoa(aux.Next.Data.Id) + ";\n"
+			content += "student_" + strconv.Itoa(aux.Next.Data.Id) + " -> student_" + strconv.Itoa(aux.Data.Id) + ";\n"
 		}
 		aux = aux.Next
 	}
