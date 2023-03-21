@@ -203,21 +203,3 @@ class SpareMatrix {
 
     }
 }
-
-const matrix = new SpareMatrix();
-
-matrix.insert(4, 4, "4,4");
-matrix.insert(6, 6, "6,6");
-matrix.insert(8, 8, "8,8");
-matrix.insert(5, 5, "5,5");
-matrix.insert(10, 10, "10,10");
-/* row y columna existen*/
-matrix.insert(10, 8, "10,8");
-matrix.insert(8, 5, "8,5");
-/** row si, columna no */
-matrix.insert(1, 8, "1,8");
-matrix.insert(3, 8, "3,8");
-/** row no, columna si */
-matrix.insert(4, 1, "4,1");
-matrix.insert(5, 11, "5,11");
-console.log(matrix.graphviz());

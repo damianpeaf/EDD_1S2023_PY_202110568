@@ -1,4 +1,4 @@
-
+import { AVLTree, Student } from '../core/index.js';
 
 const adminUser = {
     username: 'Admin',
@@ -33,3 +33,43 @@ export const getSession = () => {
     const session = localStorage.getItem('session');
     return session ? JSON.parse(session) : null;
 }
+
+export const setStudentTree = (studentTree) => {
+    localStorage.setItem('studentTree', JSON.stringify(studentTree));
+}
+
+export const getStudentTree = () => {
+    const serializeStudentTree = localStorage.getItem('studentTree');
+    const parsedStudentTree = serializeStudentTree ? JSON.parse(serializeStudentTree) : null;
+
+    const studentTree = new AVLTree();
+
+    if (parsedStudentTree && parsedStudentTree.root) {
+        // inorder insert
+        const insert = (node) => {
+            if (node.left) {
+                insert(node.left);
+            }
+
+            studentTree.insert(transformToStudent(node.data));
+
+            if (node.right) {
+                insert(node.right);
+            }
+        }
+
+        insert(parsedStudentTree.root);
+    }
+
+    return studentTree;
+}
+
+const transformToStudent = (data) => {
+    return new Student(
+        data.name,
+        data.id,
+        data.password,
+        data.rootFolder,
+    );
+}
+

@@ -24,7 +24,7 @@ const checkSession = () => {
         console.log(session)
         switch (session.user.role) {
             case 'admin':
-                window.location.href = 'admin-dashboard.html';
+                window.location.href = 'admin/dashboard.html';
                 break;
 
             default:

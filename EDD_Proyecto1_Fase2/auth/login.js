@@ -8,11 +8,10 @@ form.addEventListener('submit', (e) => {
 
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
-
     const user = validateUser(username, password);
 
     if (user) {
-        window.location.href = 'admin-dashboard.html';
+        window.location.href = 'admin/dashboard.html';
     } else {
         const errorContainer = document.getElementById('error-container');
 

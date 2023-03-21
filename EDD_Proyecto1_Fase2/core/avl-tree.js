@@ -1,15 +1,20 @@
 
 
 class AVLNode {
-    constructor(value) {
-        this.value = value;
+    constructor(data) {
+        this.data = data;
         this.left = null;
         this.right = null;
         this.height = 1;
     }
+
+
+    getValue() {
+        return this.data.getValue();
+    }
 }
 
-class AVLTree {
+export class AVLTree {
 
     constructor() {
         this.root = null;
@@ -56,16 +61,16 @@ class AVLTree {
         return node == null ? 0 : this.getHeight(node.left) - this.getHeight(node.right);
     }
 
-    insertNode(node, value) {
+    insertNode(node, data) {
 
         if (node == null) {
-            return new AVLNode(value);
+            return new AVLNode(data);
         }
 
-        if (value < node.value) {
-            node.left = this.insertNode(node.left, value);
-        } else if (value > node.value) {
-            node.right = this.insertNode(node.right, value);
+        if (data.getValue() < node.getValue()) {
+            node.left = this.insertNode(node.left, data);
+        } else if (data.getValue() > node.getValue()) {
+            node.right = this.insertNode(node.right, data);
         } else {
             return node;
         }
@@ -74,18 +79,18 @@ class AVLTree {
         const balanceFactor = this.getBalanceFactor(node);
 
         if (balanceFactor > 1) {
-            if (value < node.left.value) {
+            if (data.getValue() < node.left.getValue()) {
                 return this.rightRotation(node);
-            } else if (value > node.left.value) {
+            } else if (data.getValue() > node.left.getValue()) {
                 node.left = this.leftRotation(node.left);
                 return this.rightRotation(node);
             }
         }
 
         if (balanceFactor < -1) {
-            if (value > node.right.value) {
+            if (data.getValue() > node.right.getValue()) {
                 return this.leftRotation(node);
-            } else if (value < node.right.value) {
+            } else if (data.getValue() < node.right.getValue()) {
                 node.right = this.rightRotation(node.right);
                 return this.leftRotation(node);
             }
@@ -94,8 +99,8 @@ class AVLTree {
         return node;
     }
 
-    insert(value) {
-        this.root = this.insertNode(this.root, value);
+    insert(data) {
+        this.root = this.insertNode(this.root, data);
     }
 
     graphviz() {
@@ -115,11 +120,11 @@ class AVLTree {
         let graph = "";
 
         if (node.left != null) {
-            graph += node.value + " -> " + node.left.value + "\n";
+            graph += node.getValue() + " -> " + node.left.getValue() + "\n";
         }
 
         if (node.right != null) {
-            graph += node.value + " -> " + node.right.value + "\n";
+            graph += node.getValue() + " -> " + node.right.getValue() + "\n";
         }
 
         graph += this.graphvizNode(node.left);
@@ -129,16 +134,3 @@ class AVLTree {
     }
 
 }
-
-
-const tree = new AVLTree();
-
-tree.insert(1);
-tree.insert(2);
-tree.insert(3);
-tree.insert(4);
-tree.insert(5);
-tree.insert(6);
-tree.insert(7);
-
-console.log(tree.graphviz());
