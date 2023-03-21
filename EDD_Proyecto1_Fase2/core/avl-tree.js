@@ -12,6 +12,14 @@ class AVLNode {
     getValue() {
         return this.data.getValue();
     }
+
+    getGraphvizLabel() {
+        return this.data.getGraphvizLabel() + "\\n" + "Altura: " + this.height;
+    }
+
+    getGraphvizNode() {
+        return "N" + this.getValue();
+    }
 }
 
 export class AVLTree {
@@ -104,10 +112,10 @@ export class AVLTree {
     }
 
     graphviz() {
-        let graph = "digraph G {\n";
-        graph += "node [shape=record]\n";
+        let graph = "digraph G { ";
+        graph += "node[shape=record]; ";
         graph += this.graphvizNode(this.root);
-        graph += "}";
+        graph += " }";
         return graph;
     }
 
@@ -119,12 +127,18 @@ export class AVLTree {
 
         let graph = "";
 
+        // Declare node
+
+        graph += node.getGraphvizNode() + " [label=\"{" + node.getGraphvizLabel() + "}\"];";
+
+        // Declare edges
+
         if (node.left != null) {
-            graph += node.getValue() + " -> " + node.left.getValue() + "\n";
+            graph += node.getGraphvizNode() + " -> " + node.left.getGraphvizNode() + ";";
         }
 
         if (node.right != null) {
-            graph += node.getValue() + " -> " + node.right.getValue() + "\n";
+            graph += node.getGraphvizNode() + " -> " + node.right.getGraphvizNode() + ";";
         }
 
         graph += this.graphvizNode(node.left);

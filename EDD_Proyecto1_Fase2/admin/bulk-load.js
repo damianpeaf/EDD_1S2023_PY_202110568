@@ -1,5 +1,5 @@
 import { Student, AVLTree } from '../core/index.js';
-import { setStudentTree, getStudentTree } from '../utils/storage-handler.js';
+import { setStudentTree } from '../utils/storage-handler.js';
 
 const form = document.getElementById('bulk-load-form');
 

@@ -10,4 +10,8 @@ export class Student {
     getValue() {
         return this.id;
     }
+
+    getGraphvizLabel() {
+        return this.id + "\\n" + this.name;
+    }
 }
