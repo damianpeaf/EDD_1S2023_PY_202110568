@@ -119,6 +119,57 @@ export class AVLTree {
         return graph;
     }
 
+    inorder() {
+        const data = [];
+
+        const traverse = (node) => {
+            if (node == null) {
+                return;
+            }
+
+            traverse(node.left);
+            data.push(node.data);
+            traverse(node.right);
+        }
+
+        traverse(this.root);
+        return data;
+    }
+
+    postorder() {
+        const data = [];
+
+        const traverse = (node) => {
+            if (node == null) {
+                return;
+            }
+
+            traverse(node.left);
+            traverse(node.right);
+            data.push(node.data);
+        }
+
+        traverse(this.root);
+        return data;
+    }
+
+    preorder() {
+        const data = [];
+
+        const traverse = (node) => {
+            if (node == null) {
+                return;
+            }
+
+            data.push(node.data);
+            traverse(node.left);
+            traverse(node.right);
+        }
+
+        traverse(this.root);
+        return data;
+    }
+
     graphvizNode(node) {
 
         if (node == null) {
