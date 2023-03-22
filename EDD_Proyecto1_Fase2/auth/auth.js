@@ -1,6 +1,8 @@
 
-import { getAdminUser, setSession, setAdminUser, getSession, clearSession } from '../utils/storage-handler.js'
+import { getAdminUser, setSession, setAdminUser, getSession, clearSession, getStudentTree } from '../utils/storage-handler.js'
 
+const tree = getStudentTree();
+const users = tree.inorder().map(student => ({ ...student, role: 'student' }));
 
 export const validateUser = (username = '', password = '') => {
 
@@ -11,12 +13,21 @@ export const validateUser = (username = '', password = '') => {
         setSession(user, true);
         return user;
     } else {
-        // Search in AVL tree
+
+        const user = users.find(user => user.id === Number(username) && user.password === password);
+
+        if (user) {
+            setSession(user, true);
+            return user;
+        }
+
+        return null;
+
     }
 
 }
 
-const checkSession = () => {
+export const checkSession = () => {
 
     const session = getSession();
 
@@ -25,6 +36,10 @@ const checkSession = () => {
         switch (session.user.role) {
             case 'admin':
                 window.location.href = 'admin/dashboard.html';
+                break;
+
+            case 'student':
+                window.location.href = 'student/dashboard.html';
                 break;
 
             default:

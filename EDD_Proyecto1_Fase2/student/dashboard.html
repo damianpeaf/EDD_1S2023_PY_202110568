@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Admin Dashboard - EDD GoDrive</title>
+    <script src="https://kit.fontawesome.com/dfad1fbe8c.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">EDD - GoDrive</a>
+            <button class="btn btn-outline-danger" id="logout-button">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="container p-3 pt-5">
+        <div class="row">
+            <div class="col-12 d-flex">
+                <input class="form-control me-2" type="search" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Buscar</button>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-5 my-4">
+                <div class="card text-center">
+                    <h5 class="card-header" id="student-name"></h5>
+                    <div class="card-body grid gap-3">
+                        <h5 class="card-title" id="student-id"></h5>
+                        <button type="button" class="btn btn-outline-primary my-2">Crear carpeta</button>
+                        <button type="button" class="btn btn-outline-danger my-2">Eliminar carpeta</button>
+                    </div>
+                </div>
+
+                <div class="card text-center mt-2">
+                    <h5 class="card-header">Subir archivo</h5>
+                    <form class="card-body grid gap-3 ">
+                        <input required type="file" id="bulk-load-file" class="form-control"
+                            aria-describedby="file-describe" accept=".txt, .pdf, image/*">
+                        <button type="submit" class="btn btn-outline-primary mt-3  btn-block">Cargar</button>
+                    </form>
+                </div>
+            </div>
+            <div class="col-7 my-4">
+
+                <div class="row my-4">
+                    <div class="col d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-light">Reporte de carpeta</button>
+                    </div>
+                    <div class="col d-flex justify-content-center">
+                        <button type="button" class="btn btn-outline-light">Reporte de archivos</button>
+                    </div>
+                </div>
+
+                <div class="card mb-3 ">
+                    <div class="row g-0">
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-folder" style="font-size: 2em;"></i>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">Folder Name</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mb-3 ">
+                    <div class="row g-0">
+                        <div class="col-md-4 d-flex justify-content-center align-items-center">
+                            <i class="fa-solid fa-file" style="font-size: 2em;"></i>
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">File Name</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </main>
+
+    <script src="./navbar.js" type="module"></script>
+    <script src="./dashboard.js" type="module"></script>
+
+</body>
+
+</html>
