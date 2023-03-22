@@ -1,5 +1,5 @@
-import { Student, AVLTree } from '../core/index.js';
-import { setStudentTree } from '../utils/storage-handler.js';
+import { Student, AVLTree, DirectoryTree } from '../core/index.js';
+import { setStudentTree, setStudentsDirectoryTrees } from '../utils/storage-handler.js';
 
 const form = document.getElementById('bulk-load-form');
 
@@ -43,6 +43,16 @@ form.addEventListener('submit', (e) => {
             }, 3000);
 
             setStudentTree(newTree);
+
+            // Create directory trees
+
+            const directoryTrees = {};
+
+            data.alumnos.forEach((student) => {
+                directoryTrees[student.carnet] = new DirectoryTree(student.Carpeta_Raiz);
+            });
+
+            setStudentsDirectoryTrees(directoryTrees);
 
         } catch (error) {
             console.log(error)

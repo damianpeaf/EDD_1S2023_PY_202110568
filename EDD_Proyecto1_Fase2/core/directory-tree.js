@@ -1,4 +1,4 @@
-class Directory {
+export class Directory {
     constructor(name) {
         this.name = name;
         this.children = [];
@@ -12,61 +12,65 @@ class Directory {
     }
 
     graphvizNodeName() {
-        return this.name == '' ? 'root' : this.name;
+        return this.name == '' ? 'root' : this.name.replace(/ /g, '_');
     }
 
     graphvizNodeLabel() {
         return this.name == '' ? '/' : this.name;
     }
+
+    addDirectory(subDir) {
+        const directory = this.searchDirectory(subDir);
+
+        if (directory) {
+            const subDirCopy = "Copia " + subDir;
+            return this.addDirectory(subDirCopy);
+        }
+
+        const newDirectory = new Directory(subDir);
+
+        this.children.push(newDirectory);
+
+        return newDirectory;
+    }
+
+    addFile(file) {
+        // TODO: Check if file already exists
+        this.files.push(file);
+    }
 }
 
-class DirectoryTree {
+export class DirectoryTree {
 
     constructor(root) {
+        // TODO: 
         this.root = new Directory(root.split('/').pop());
     }
 
-    addDirectory(path) {
-        let pathArray = path.split('/');
+    getDirectory(path) {
+        let pathParts = path.split('/');
 
-        let current = null;
-        if (pathArray[0] === this.root.name) {
-            current = this.root;
-            pathArray = pathArray.slice(1); // Remove root
+        let currentDirectory = null;
+
+        if (pathParts[0] === this.root.name) {
+            currentDirectory = this.root;
+            pathParts = pathParts.slice(1); // Remove root
         }
 
-        if (!current) {
+        if (!currentDirectory) {
             return null;
         }
 
-        pathArray.forEach((subDir) => {
+        for (let i = 1; i < pathParts.length; i++) {
+            currentDirectory = currentDirectory.searchDirectory(pathParts[i]);
 
-            const child = current.searchDirectory(subDir);
-
-            if (child) {
-                current = child;
-            } else {
-                const newChild = new Directory(subDir);
-                current.children.push(newChild);
-                current = newChild;
+            if (!currentDirectory) {
+                return null;
             }
-
-        });
-
-    }
-
-
-
-    addFile(path, fileName) {
-        const directory = this.searchDirectory(path);
-
-        if (directory) {
-            directory.files.push(fileName);
         }
 
-        return directory;
+        return currentDirectory;
     }
-
 
     graphviz() {
 
@@ -97,10 +101,3 @@ class DirectoryTree {
     }
 
 }
-
-const tree = new DirectoryTree('/');
-
-tree.addDirectory('/home');
-tree.addDirectory('/home/usuario');
-tree.addDirectory('/docs');
-console.log(tree.graphviz());

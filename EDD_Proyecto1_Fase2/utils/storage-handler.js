@@ -1,4 +1,4 @@
-import { AVLTree, Student } from '../core/index.js';
+import { AVLTree, Student, DirectoryTree, Directory } from '../core/index.js';
 
 const adminUser = {
     username: 'Admin',
@@ -73,3 +73,47 @@ const transformToStudent = (data) => {
     );
 }
 
+export const setStudentsDirectoryTrees = (directoryTree) => {
+    localStorage.setItem('directoryTree', JSON.stringify(directoryTree));
+}
+
+export const getDirectoryTree = (studentId) => {
+
+    const serializeDirectoryTree = localStorage.getItem('directoryTree');
+    const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
+
+    if (parsedDirectoryTree) {
+        return parseDirectoryTree(parsedDirectoryTree[studentId]);
+    }
+
+    return null;
+}
+
+export const setDirectoryTree = (studentId, directoryTree) => {
+    const serializeDirectoryTree = localStorage.getItem('directoryTree');
+    const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
+
+    if (parsedDirectoryTree) {
+        parsedDirectoryTree[studentId] = directoryTree;
+        localStorage.setItem('directoryTree', JSON.stringify(parsedDirectoryTree));
+    }
+}
+
+const parseDirectoryTree = (directoryTree) => {
+
+    const tree = new DirectoryTree(directoryTree.root.name);
+
+    const parse = (node, currentDirectory) => {
+        node.children.forEach(child => {
+            const newDirectory = currentDirectory.addDirectory(child.name);
+            parse(child, newDirectory);
+        });
+
+        node.files.forEach(file => {
+            currentDirectory.addFile(file);
+        });
+    }
+
+    parse(directoryTree.root, tree.root);
+    return tree;
+}

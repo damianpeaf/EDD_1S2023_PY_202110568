@@ -8,6 +8,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN"
+        crossorigin="anonymous"></script>
 
     <title>Admin Dashboard - EDD GoDrive</title>
     <script src="https://kit.fontawesome.com/dfad1fbe8c.js" crossorigin="anonymous"></script>
@@ -24,7 +27,7 @@
     <main class="container p-3 pt-5">
         <div class="row">
             <div class="col-12 d-flex">
-                <input class="form-control me-2" type="search" aria-label="Search">
+                <input class="form-control me-2" type="search" id="path-search" aria-label="Search">
                 <button class="btn btn-outline-success" type="submit">Buscar</button>
             </div>
         </div>
@@ -34,7 +37,8 @@
                     <h5 class="card-header" id="student-name"></h5>
                     <div class="card-body grid gap-3">
                         <h5 class="card-title" id="student-id"></h5>
-                        <button type="button" class="btn btn-outline-primary my-2">Crear carpeta</button>
+                        <button type="button" class="btn btn-outline-primary my-2" data-bs-toggle="modal"
+                            data-bs-target="#createFolderModal">Crear carpeta</button>
                         <button type="button" class="btn btn-outline-danger my-2">Eliminar carpeta</button>
                     </div>
                 </div>
@@ -52,7 +56,7 @@
 
                 <div class="row my-4">
                     <div class="col d-flex justify-content-center">
-                        <button type="button" class="btn btn-outline-light">Reporte de carpeta</button>
+                        <a href="folders-reports.html" class="btn btn-outline-light">Reporte de carpeta</a>
                     </div>
                     <div class="col d-flex justify-content-center">
                         <button type="button" class="btn btn-outline-light">Reporte de archivos</button>
@@ -86,6 +90,33 @@
                 </div>
             </div>
     </main>
+
+    <!-- Modal -->
+    <div class="modal fade" id="createFolderModal" tabindex="-1" aria-labelledby="createFolderModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="createFolderModalLabel">Crear carpeta<span></span> </h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="new-folder-form">
+                    <div class="modal-body">
+                        <label for="basic-url" class="form-label">Nombre la carpeta: </label>
+                        <div class="input-group">
+                            <span class="input-group-text" id="current-folder-span"></span>
+                            <input type="text" class="form-control" id="new-folder-name"
+                                aria-describedby="basic-addon3">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Crear Carpeta</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <script src="./navbar.js" type="module"></script>
     <script src="./dashboard.js" type="module"></script>
