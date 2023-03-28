@@ -1,5 +1,7 @@
+import { File as CustomFile } from "./index.js";
 
 class MatrixNode {
+
     constructor(row, col, data = null) {
         this.row = row;
         this.col = col;
@@ -10,82 +12,116 @@ class MatrixNode {
         this.down = null;
         this.up = null;
     }
+
 }
 
 
-class SpareMatrix {
+export class PermissionMatrix {
 
     constructor() {
         // Corner Root
-        this.cornerRoot = new MatrixNode(-1, -1, "Documentos");
+        this.cornerRoot = new MatrixNode(-1, -1, new CustomFile("Documentos", "Documentos"));
     }
 
-    getRowHead(row = 0) {
+    searchRowHead(file) {
+
         let pivot = this.cornerRoot;
-        let prevPivot = this.cornerRoot;
-        const newRowHead = new MatrixNode(row, -1, "Row Head " + row);
 
         while (pivot.down) {
-
-            if (row > pivot.row) {
-                // Move down
-                prevPivot = pivot;
-                pivot = pivot.down;
-            } else if (row == pivot.row) {
-                // Row already exists
+            pivot = pivot.down; // Skip corner root
+            if (pivot.data.getValue() == file.getValue()) {
                 return pivot;
-            } else {
-                // Insert new row between prevPivot and pivot
-                newRowHead.down = pivot;
-                newRowHead.up = prevPivot;
-                prevPivot.down = newRowHead;
-                pivot.up = newRowHead;
-                return newRowHead;
             }
         }
 
-        // Insert new row at the end
-        if (pivot.row != row) {
-            newRowHead.up = pivot;
-            pivot.down = newRowHead;
-            return newRowHead;
-        } else {
-            return pivot;
-        }
+        return null;
     }
 
-    getColHead(col = 0) {
+    getRowHead(file) {
+
+        let rowHead = this.searchRowHead(file);
+
+        if (rowHead) {
+            return rowHead;
+        }
+
+        // Insert new row at the end
+
         let pivot = this.cornerRoot;
-        let prevPivot = this.cornerRoot;
-        const newColHead = new MatrixNode(-1, col, "Col Head " + col);
+
+        while (pivot.down) {
+            pivot = pivot.down;
+        }
+
+        rowHead = new MatrixNode(pivot.row + 1, -1, file);
+        rowHead.up = pivot;
+        pivot.down = rowHead;
+        return rowHead;
+    }
+
+    searchColHead(student) {
+
+        let pivot = this.cornerRoot;
 
         while (pivot.right) {
+            pivot = pivot.right; // Skip corner root
+            if (pivot.data.getValue() == student.getValue()) {
+                return pivot;
+            }
+        }
+        return null;
+    }
 
-            if (col > pivot.col) {
+    getColHead(student) {
+
+        let newColHead = this.searchColHead(student);
+
+        if (newColHead) {
+            return newColHead;
+        }
+
+        // Insert the col in order
+
+        let pivot = this.cornerRoot;
+        let prevPivot = this.cornerRoot;
+
+        while (pivot) {
+
+            if (pivot.col == -1 && pivot.row == -1) {
+                pivot = pivot.right;
+                continue;
+            }
+
+            if (student.getValue() > pivot.data.getValue()) {
                 // Move right
                 prevPivot = pivot;
                 pivot = pivot.right;
-            } else if (col == pivot.col) {
-                // Col already exists
-                return pivot;
             } else {
                 // Insert new col between prevPivot and pivot
+                newColHead = new MatrixNode(-1, pivot.col, student);
+                pivot.col += 1;
                 newColHead.right = pivot;
                 newColHead.left = prevPivot;
                 prevPivot.right = newColHead;
                 pivot.left = newColHead;
+
+                // Update col of the down nodes
+
+                let downNode = pivot.down;
+                while (downNode) {
+                    downNode.col += 1;
+                    downNode = downNode.down;
+                }
+
                 return newColHead;
             }
         }
 
         // Insert new col at the end
-        if (pivot.col != col) {
-            newColHead.left = pivot;
-            pivot.right = newColHead;
-            return newColHead;
-        } else {
-            return pivot;
-        }
+        newColHead = new MatrixNode(-1, prevPivot.col + 1, student);
+        newColHead.left = prevPivot;
+        prevPivot.right = newColHead;
+        return newColHead;
     }
 
     insertNode(rowHeader, colHeader, newNode) {
@@ -140,14 +176,40 @@ class SpareMatrix {
         }
     }
 
-    insert(row, col, value = null) {
+    insertPermission(file, student, permission) {
 
-        const rowHeader = this.getRowHead(row);
-        const colHeader = this.getColHead(col);
-        const newNode = new MatrixNode(row, col, value);
+        const rowHeader = this.getRowHead(file);
+        const colHeader = this.getColHead(student);
+        const newNode = new MatrixNode(rowHeader.row, colHeader.col, permission);
 
         this.insertNode(rowHeader, colHeader, newNode);
 
+    }
+
+    insertFile(file) {
+
+        const files = this.getFiles();
+
+        // Check if file already exists
+        const fileExists = files.find(f => f.getValue() === file.getValue());
+
+        if (fileExists) {
+            file.name = file.name + " [COPIA]"
+        };
+
+        this.getRowHead(file);
+    }
+
+    getFiles() {
+        let files = [];
+        let pivot = this.cornerRoot;
+
+        while (pivot.down) {
+            pivot = pivot.down;
+            files.push(pivot.data);
+        }
+
+        return files;
     }
 
     graphviz() {

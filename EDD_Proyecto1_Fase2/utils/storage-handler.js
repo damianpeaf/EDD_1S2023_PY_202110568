@@ -1,4 +1,4 @@
-import { AVLTree, Student, DirectoryTree, Directory } from '../core/index.js';
+import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail } from '../core/index.js';
 
 const adminUser = {
     username: 'Admin',
@@ -109,11 +109,35 @@ const parseDirectoryTree = (directoryTree) => {
             parse(child, newDirectory);
         });
 
-        node.files.forEach(file => {
-            currentDirectory.addFile(file);
-        });
+        currentDirectory.filesDetails = parseFilesDetails(node.filesDetails);
     }
 
     parse(directoryTree.root, tree.root);
     return tree;
+}
+
+const parseFilesDetails = (filesDetails) => {
+
+    const details = [];
+
+    filesDetails.forEach(fileDetail => {
+        const newFileDetail = new FileDetail(new File(fileDetail.file.name, fileDetail.file.content));
+        newFileDetail.permisssionsDetails = parsePermissions(fileDetail.permisssionsDetails);
+        details.push(newFileDetail);
+
+    });
+
+    return details;
+
+}
+
+const parsePermissions = (permissionsDetail) => {
+    const parsedPermissions = [];
+
+    permissionsDetail.forEach(permission => {
+        const newPermission = new PermissionDetail(new Permission(permission.permission.name), new Student(permission.student.name, permission.student.id, permission.student.password, permission.student.rootFolder));
+        parsedPermissions.push(newPermission);
+    });
+
+    return parsedPermissions;
 }

@@ -1,10 +1,10 @@
+import { FileDetail } from './index.js';
+
 export class Directory {
     constructor(name) {
         this.name = name;
         this.children = [];
-        this.files = [];
-
-        // TODO: Spare matrix for file permissions
+        this.filesDetails = [];
     }
 
     searchDirectory(subDir) {
@@ -23,7 +23,7 @@ export class Directory {
         const directory = this.searchDirectory(subDir);
 
         if (directory) {
-            const subDirCopy = "Copia " + subDir;
+            const subDirCopy = subDir + ' [COPIA]';
             return this.addDirectory(subDirCopy);
         }
 
@@ -35,19 +35,35 @@ export class Directory {
     }
 
     addFile(file) {
-        // TODO: Check if file already exists
-        this.files.push(file);
+        // Validate if file already exists
+        const fileDetail = this.filesDetails.find((fileDetail) => fileDetail.file.name === file.name);
+
+        if (fileDetail) {
+            file.name = file.name + ' [COPIA]';
+            return this.addFile(file);
+        }
+
+        this.filesDetails.push(new FileDetail(file));
+
+    }
+
+    getFiles() {
+        return this.filesDetails.map((fileDetail) => fileDetail.file);
     }
 }
 
 export class DirectoryTree {
 
     constructor(root) {
-        // TODO: 
         this.root = new Directory(root.split('/').pop());
     }
 
-    getDirectory(path) {
+    getDirectory(path = '/') {
+
+        if (path.trim() === '/') {
+            return this.root;
+        }
+
         let pathParts = path.split('/');
 
         let currentDirectory = null;
@@ -61,7 +77,7 @@ export class DirectoryTree {
             return null;
         }
 
-        for (let i = 1; i < pathParts.length; i++) {
+        for (let i = 0; i < pathParts.length; i++) {
             currentDirectory = currentDirectory.searchDirectory(pathParts[i]);
 
             if (!currentDirectory) {
