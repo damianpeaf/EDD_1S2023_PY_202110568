@@ -14,9 +14,26 @@ const currentDirectory = directoryTree.getDirectory(dir);
 
 const setGraphvizImage = () => {
 
-    console.log(currentDirectory);
+    const image = document.getElementById('permission-matrix');
+
 
     const matrix = new PermissionMatrix();
+
+    if (currentDirectory.filesDetails.length == 0) {
+        const container = document.getElementById('container');
+
+        const alert = document.createElement('div');
+        alert.setAttribute('class', 'alert alert-warning');
+        alert.setAttribute('role', 'alert');
+        alert.innerHTML = 'No hay archivos en este directorio';
+
+        container.appendChild(alert);
+
+        // Hide image
+        image.style.display = 'none';
+
+        return;
+    }
 
     currentDirectory.filesDetails.forEach(fileDetail => {
 
@@ -31,7 +48,6 @@ const setGraphvizImage = () => {
 
     console.log(matrix)
 
-    const image = document.getElementById('permission-matrix');
 
     const url = 'https://quickchart.io/graphviz?graph=' + matrix.graphviz();
 

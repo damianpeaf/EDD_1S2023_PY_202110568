@@ -1,5 +1,5 @@
 import { renderCards } from './cards.js';
-import { getSession, getDirectoryTree, setDirectoryTree, getStudentTree } from '../utils/storage-handler.js';
+import { getSession, getDirectoryTree, setDirectoryTree, getStudentTree, setCurrentDirectory, getCurrentDirectory, getSessionBinacle, saveSessionBinnacle } from '../utils/storage-handler.js';
 import { File as CustomFile, Permission } from '../core/index.js';
 
 
@@ -14,11 +14,12 @@ const directoryName = document.getElementById('directory-name');
 const studentSelect = document.getElementById('student-select');
 const addPermissionForm = document.getElementById('add-permission-form');
 const filesReportsButton = document.getElementById('files-reports-button');
+const deleteDirectoryButton = document.getElementById('delete-directory-button');
 
 const session = getSession();
 const directoryTree = getDirectoryTree(session.user.id);
 const studentTree = getStudentTree();
-
+const binnacle = getSessionBinacle()
 
 
 studentName.innerText = session.user.name;
@@ -28,16 +29,23 @@ const query = window.location.search;
 const params = new URLSearchParams(query);
 let dir = params.get('dir');
 
-dir = dir ? dir : directoryTree.root.graphvizNodeLabel();
+dir = dir ? dir : getCurrentDirectory();
 
 pathSearch.value = dir;
 currentFolderSpan.innerText = dir;
 
 const currentDirectory = directoryTree.getDirectory(dir);
 
+if (!currentDirectory) {
+    alert('La carpeta no existe');
+    window.location.href = `dashboard.html?dir=${getCurrentDirectory()}`;
+}
+
+setCurrentDirectory(dir);
+
 // * ----------------- Render ----------------- * //
 
-directoryName.innerText = "Carpeta actual: " + dir + "";
+directoryName.innerText = "Carpeta actual: " + dir + ""; // ? Breadcumb
 
 renderCards(currentDirectory.children, dir);
 
@@ -57,6 +65,10 @@ newFolderForm.addEventListener('submit', (event) => {
     const newFolderName = document.getElementById('new-folder-name').value;
     currentDirectory.addDirectory(newFolderName);
     setDirectoryTree(session.user.id, directoryTree);
+
+    binnacle.add(`Se creo la carpeta ${newFolderName} en la carpeta ${dir}`);
+    saveSessionBinnacle(binnacle);
+
 });
 
 uploadFileForm.addEventListener('submit', (event) => {
@@ -74,6 +86,9 @@ uploadFileForm.addEventListener('submit', (event) => {
         console.log(currentDirectory)
         setDirectoryTree(session.user.id, directoryTree);
     }
+
+    binnacle.add(`Se subio el archivo ${file.name} en la carpeta ${dir}`);
+    saveSessionBinnacle(binnacle);
 
     alert('Archivo subido exitosamente');
 
@@ -109,10 +124,27 @@ addPermissionForm.addEventListener('submit', (event) => {
     const permission = new Permission(permissionName)
     fileDetail.addPermission(user, permission);
     setDirectoryTree(session.user.id, directoryTree);
+
+    binnacle.add(`Se agrego el permiso ${permissionName} al archivo ${fileNameInput.value} para el usuario ${user.name} - ${user.id}`);
+    saveSessionBinnacle(binnacle);
+
     alert('Permiso agregado exitosamente');
 
 });
 
 filesReportsButton.addEventListener('click', (event) => {
     window.location.href = `files-reports.html?dir=${dir}`;
+});
+
+deleteDirectoryButton.addEventListener('click', (event) => {
+    let parentDirectory = getCurrentDirectory().split('/').slice(0, -1).join('/');
+    parentDirectory = parentDirectory ? parentDirectory : '/';
+
+    directoryTree.deleteDirectory(dir);
+    setDirectoryTree(session.user.id, directoryTree);
+
+    binnacle.add(`Se elimino la carpeta ${dir}`);
+    saveSessionBinnacle(binnacle);
+
+    window.location.href = `dashboard.html?dir=${parentDirectory}`;
 });

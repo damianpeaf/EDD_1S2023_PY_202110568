@@ -1,3 +1,4 @@
+import { Binnacle } from '../core/binnacle.js';
 import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail } from '../core/index.js';
 
 const adminUser = {
@@ -140,4 +141,77 @@ const parsePermissions = (permissionsDetail) => {
     });
 
     return parsedPermissions;
+}
+
+
+export const setCurrentDirectory = (directory = '/') => {
+    localStorage.setItem('currentDirectory', directory);
+}
+
+export const getCurrentDirectory = () => {
+    const dir = localStorage.getItem('currentDirectory');
+    return dir ? dir : '/';
+}
+
+export const setStudentsBinnacles = (binnacles = { 2021: new Binnacle() }) => {
+
+    const formatedBinnacles = {}
+
+    Object.keys(binnacles).forEach(key => {
+
+        let aux = binnacles[key].head;
+        let i = 0;
+        const nodes = [];
+
+        while (i < binnacles[key].size) {
+            nodes.push({
+                data: aux.data,
+                date: aux.date,
+            });
+            aux = aux.next;
+            i++;
+        }
+
+        formatedBinnacles[key] = nodes;
+    });
+
+    localStorage.setItem('binnacles', JSON.stringify(formatedBinnacles));
+}
+
+export const getSessionBinacle = () => {
+
+    const session = getSession();
+    const serializeBinnacle = localStorage.getItem('binnacles');
+
+    if (session && serializeBinnacle) {
+        const binnacles = JSON.parse(serializeBinnacle);
+        const nodes = binnacles[session.user.id].map(node => {
+            return {
+                data: node.data,
+                date: new Date(Date.parse(node.date))
+            }
+        }).sort((a, b) => a.date - b.date);
+
+        const binnacle = new Binnacle();
+
+        nodes.forEach(node => {
+            binnacle.add(node.data, node.date);
+        });
+
+        return binnacle;
+    }
+
+    return null;
+}
+
+
+export const saveSessionBinnacle = (binnacle) => {
+    const session = getSession();
+    const serializeBinnacle = localStorage.getItem('binnacles');
+
+    if (session && serializeBinnacle) {
+        const binnacles = JSON.parse(serializeBinnacle);
+        binnacles[session.user.id] = binnacle;
+        setStudentsBinnacles(binnacles);
+    }
 }

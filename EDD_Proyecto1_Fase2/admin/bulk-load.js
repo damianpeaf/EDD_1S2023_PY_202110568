@@ -1,5 +1,5 @@
-import { Student, AVLTree, DirectoryTree } from '../core/index.js';
-import { setStudentTree, setStudentsDirectoryTrees } from '../utils/storage-handler.js';
+import { Student, AVLTree, DirectoryTree, Binnacle } from '../core/index.js';
+import { setStudentTree, setStudentsDirectoryTrees, setStudentsBinnacles } from '../utils/storage-handler.js';
 
 const form = document.getElementById('bulk-load-form');
 
@@ -53,6 +53,14 @@ form.addEventListener('submit', (e) => {
             });
 
             setStudentsDirectoryTrees(directoryTrees);
+
+            const studentsBinnacles = {};
+
+            data.alumnos.forEach((student) => {
+                studentsBinnacles[student.carnet] = new Binnacle();
+            });
+
+            setStudentsBinnacles(studentsBinnacles);
 
         } catch (error) {
             console.log(error)

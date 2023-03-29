@@ -23,7 +23,7 @@ export class Directory {
         const directory = this.searchDirectory(subDir);
 
         if (directory) {
-            const subDirCopy = subDir + ' [COPIA]';
+            const subDirCopy = '[COPIA] ' + subDir;
             return this.addDirectory(subDirCopy);
         }
 
@@ -39,7 +39,7 @@ export class Directory {
         const fileDetail = this.filesDetails.find((fileDetail) => fileDetail.file.name === file.name);
 
         if (fileDetail) {
-            file.name = file.name + ' [COPIA]';
+            file.name = '[COPIA] ' + file.name;
             return this.addFile(file);
         }
 
@@ -86,6 +86,23 @@ export class DirectoryTree {
         }
 
         return currentDirectory;
+    }
+
+    deleteDirectory(path) {
+
+        let parentDirectorPath = path.split('/').slice(0, -1).join('/');
+        parentDirectorPath = parentDirectorPath ? parentDirectorPath : '/';
+
+        const parentDirectory = this.getDirectory(parentDirectorPath);
+
+        if (!parentDirectory) {
+            return;
+        }
+
+        const directoryName = path.split('/').pop();
+
+        parentDirectory.children = parentDirectory.children.filter((child) => child.name !== directoryName);
+
     }
 
     graphviz() {
