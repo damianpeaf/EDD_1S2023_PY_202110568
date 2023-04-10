@@ -90,6 +90,10 @@ export class DirectoryTree {
 
     deleteDirectory(path) {
 
+        if (path.trim() === '/') {
+            this.root = new Directory(path.split('/').pop());
+        }
+
         let parentDirectorPath = path.split('/').slice(0, -1).join('/');
         parentDirectorPath = parentDirectorPath ? parentDirectorPath : '/';
 
