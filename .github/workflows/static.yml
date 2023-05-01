@@ -37,7 +37,7 @@ jobs:
         uses: actions/upload-pages-artifact@v1
         with:
           # Upload entire repository
-          path: './EDD_Proyecto1_Fase2'
+          path: './EDD_Proyecto1_Fase3'
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v2
