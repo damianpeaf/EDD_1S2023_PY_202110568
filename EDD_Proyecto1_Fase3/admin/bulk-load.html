@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="es" data-bs-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+
+    <title>Admin Dashboard - EDD GoDrive</title>
+</head>
+
+<body>
+    <nav class="navbar bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">Admin Dashboard</a>
+            <button class="btn btn-outline-danger" id="logout-button">Cerrar Sesión</button>
+        </div>
+    </nav>
+
+    <main class="container p-4">
+        <form id="bulk-load-form">
+            <label for="bulk-load-file" class="form-label">Archivo JSON</label>
+            <input accept=".json" required type="file" id="bulk-load-file" class="form-control"
+                aria-describedby="file-describe">
+            <div id="file-describe" class="form-text">
+                Puede cargar un archivo JSON con los datos de los estudiantes.
+            </div>
+            <button type="submit" class="btn btn-primary mt-3">Cargar</button>
+            <div class="mt-2 mb-2" id="error-container">
+
+            </div>
+        </form>
+    </main>
+
+    <script src="./bulk-load.js" type="module"></script>
+    <script src="./navbar.js" type="module"></script>
+
+</body>
+
+</html>
