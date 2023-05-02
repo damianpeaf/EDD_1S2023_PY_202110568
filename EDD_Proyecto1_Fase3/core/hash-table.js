@@ -127,4 +127,13 @@ export class HashTable {
         return true;
     }
 
+    elements() {
+        let elements = []
+        this.table.forEach((student) => {
+            if (student != null) {
+                elements.push(student)
+            }
+        })
+        return elements
+    }
 }

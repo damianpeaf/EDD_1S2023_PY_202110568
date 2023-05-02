@@ -1,5 +1,5 @@
 
-import { getAdminUser, setSession, setAdminUser, getSession, clearSession, getStudentsHashTable, hashPassword } from '../utils/index.js'
+import { getAdminUser, setSession, setAdminUser, getSession, clearSession, getStudentsHashTable, hashPassword, setCurrentDirectory } from '../utils/index.js'
 
 const users = getStudentsHashTable()
 
@@ -45,6 +45,7 @@ export const checkSession = () => {
                 break;
 
             case 'student':
+                setCurrentDirectory('/');
                 window.location.href = 'student/dashboard.html';
                 break;
 

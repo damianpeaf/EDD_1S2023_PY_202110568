@@ -226,3 +226,44 @@ export const getStudentsHashTable = () => {
 
     return hashTable;
 }
+
+
+export const getPermissionData = () => {
+
+    const students = getStudentsHashTable();
+    const permissionData = []
+
+    const formatDirectoryInformation = (student, directory, path) => {
+        directory.filesDetails.forEach(fileDetail => {
+            fileDetail.permisssionsDetails.forEach(permissionDetail => {
+                permissionData.push({
+                    owner: student.id,
+                    destination: permissionDetail.student.id,
+                    path,
+                    file: fileDetail.file,
+                    permission: permissionDetail.permission.name
+                })
+            })
+        })
+
+        // Recursion
+        directory.children.forEach(child => {
+            formatDirectoryInformation(student, child, (path == '/' ? path : path + '/') + child.name)
+        })
+    }
+    students.elements().forEach(student => {
+        const root = getDirectoryTree(student.id).root;
+        formatDirectoryInformation(student, root, '/')
+    })
+
+    return permissionData;
+}
+
+export const getSharedFiles = (studentId) => {
+
+    const permissions = getPermissionData();
+    const sharedFiles = permissions.filter(permission => permission.destination == studentId);
+
+
+    return sharedFiles;
+}

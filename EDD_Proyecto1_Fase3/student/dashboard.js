@@ -1,5 +1,5 @@
 import { renderCards } from './cards.js';
-import { getSession, getDirectoryTree, setDirectoryTree, getStudentTree, setCurrentDirectory, getCurrentDirectory, getSessionBinacle, saveSessionBinnacle } from '../utils/storage-handler.js';
+import { getSession, getDirectoryTree, setDirectoryTree, getStudentsHashTable, setCurrentDirectory, getCurrentDirectory, getSessionBinacle, getSharedFiles } from '../utils/storage-handler.js';
 import { File as CustomFile, Permission } from '../core/index.js';
 
 
@@ -18,7 +18,7 @@ const deleteDirectoryButton = document.getElementById('delete-directory-button')
 
 const session = getSession();
 const directoryTree = getDirectoryTree(session.user.id);
-const studentTree = getStudentTree();
+const studentHashTable = getStudentsHashTable();
 const binnacle = getSessionBinacle()
 
 
@@ -52,7 +52,7 @@ renderCards(currentDirectory.children, dir);
 renderCards(currentDirectory.getFiles());
 
 // Fill student select
-studentTree.inorder().filter(s => s.id != session.user.id).forEach((student) => {
+studentHashTable.elements().filter(s => s.id != session.user.id).forEach((student) => {
     const option = document.createElement('option');
     option.value = student.id;
     option.innerText = student.name + " - " + student.id;
@@ -113,7 +113,7 @@ addPermissionForm.addEventListener('submit', (event) => {
     }
 
     // Search user
-    const user = studentTree.inorder().find((student) => student.id == studentId);
+    const user = studentHashTable.search(Number(studentId));
 
     if (!user) {
         alert('El usuario no existe');
