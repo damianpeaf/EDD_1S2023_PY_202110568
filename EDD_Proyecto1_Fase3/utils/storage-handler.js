@@ -1,5 +1,5 @@
 import { Binnacle } from '../core/binnacle.js';
-import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail, HashTable } from '../core/index.js';
+import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail, HashTable, BlockChain, Block } from '../core/index.js';
 
 const adminUser = {
     username: 'Admin',
@@ -266,4 +266,53 @@ export const getSharedFiles = (studentId) => {
 
 
     return sharedFiles;
+}
+
+
+export const setBlockChain = (blockChain) => {
+
+    const blocks = []
+
+    let aux = blockChain.start;
+    while (aux != null) {
+
+        blocks.push({
+            ...aux.data,
+        });
+
+        aux = aux.next;
+    }
+
+    localStorage.setItem('blockChain', JSON.stringify(blocks));
+
+}
+
+export const getBlockChain = () => {
+
+    const serializeBlockChain = localStorage.getItem('blockChain');
+    const parsedBlockChain = serializeBlockChain ? JSON.parse(serializeBlockChain) : null;
+
+    const blockChain = new BlockChain();
+    if (parsedBlockChain) {
+
+        const blocks = parsedBlockChain.map(b => {
+            return new Block(
+                b.index,
+                new Date(Date.parse(b.date)),
+                b.emiter,
+                b.receptor,
+                b.msg,
+                null,
+                b.hash
+            );
+        });
+
+        blocks.forEach(block => {
+            blockChain.insertBlock(block);
+        });
+
+    }
+
+    return blockChain;
+
 }
