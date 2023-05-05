@@ -12,7 +12,7 @@ export class Directory {
     }
 
     graphvizNodeName() {
-        return this.name == '' ? 'root' : this.name.replace(/ /g, '_');
+        return this.name == '' ? 'root' : this.name.replace(/ /g, '_').replace('.', '_');
     }
 
     graphvizNodeLabel() {
