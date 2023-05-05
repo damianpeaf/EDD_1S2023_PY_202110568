@@ -28,71 +28,52 @@ La aplicación dispondrá de una página principal que permitirá a los estudian
 
 
  * Vista principal
-Las funciones del administrador incluyen una vista principal que mostrará visualmente en una tabla los alumnos aprobados que se encuentran en el sistema. Además, el administrador podrá generar un informe del árbol generado por los alumnos, que estarán almacenados en un árbol AVL. Para mostrar los datos, se utilizará el recorrido In-Orden por defecto, aunque el administrador podrá elegir otro tipo de recorrido como Post-Orden o Pre-Orden.
 
-![Vista Principal](./images/1.PNG)
+Para acceder a las funciones de administrador, se debe contar con los permisos necesarios y una vez dentro, se encontrará con una vista principal que mostrará diferentes opciones para la gestión del sistema.
 
-![Vista Principal](./images/12.PNG)
-
- * Carga masiva
-
-La carga masiva de datos será una función disponible para el administrador, que le permitirá subir un archivo de tipo JSON con los datos de los estudiantes para facilitar su gestión.
-
-![Carga masiva](./images/2.PNG)
+![Vista Principal](./images/1.png)
 
 
- * Generar reporte
+En la tabla general de permisos de usuarios, se podrá visualizar los archivos compartidos dentro del sistema. Esta tabla mostrará información relevante como el Usuario Propietario, el Usuario Destino, la Ruta del archivo, el Nombre de Archivo y el Permiso del archivo. Con esta información, el administrador tendrá un mayor control sobre el acceso a los archivos compartidos por los usuarios del sistema.
+![Vista Principal](./images/2.png)
 
-En cuanto a los reportes, el administrador tendrá un apartado específico que le mostrará el Árbol AVL con todos los estudiantes, así como la altura que posee cada nodo de la estructura.
 
-![generar reporte](./images/3.PNG)
+Además, se ha incluido un botón para generar el reporte de mensajes. Este botón permitirá generar un reporte detallado de los mensajes enviados y recibidos por los usuarios del sistema. De esta forma, el administrador podrá tener una visión general del uso que los usuarios están haciendo del sistema y tomar decisiones informadas en caso de ser necesario.
+
+![Vista Principal](./images/3.png)
+
+
+![Vista Principal](./images/4.png)
+
 
 
 # **Funciones de Usuario**
 
- * Vista Principal
-Cuando el usuario inicie sesión, se le presentará una ventana con diversas opciones para crear, eliminar o modificar carpetas. Para acceder a las carpetas del sistema, se utilizará una barra de búsqueda superior en la que el usuario podrá ingresar la ruta de su carpeta. La aplicación verificará que la ruta sea válida y existente; en caso contrario, se mostrará una alerta que indique que el directorio no es válido. Para el almacenamiento de las carpetas, se implementará un árbol indexado. Cada usuario dentro del sistema tendrá su propio árbol, y para el almacenamiento de los archivos en cada carpeta se utilizará una matriz dispersa ligada a cada nodo del árbol.
+* Vista principal
 
-![Vista Principal](./images/4.PNG)
+Para acceder a las funciones de usuario, se debe contar con los permisos necesarios y una vez dentro, se encontrará con una vista principal que mostrará diferentes opciones para la gestión del sistema.
 
- * Subir archivo
+![Vista Principal](./images/5.png)
 
-La aplicación permitirá subir archivos con las extensiones .txt, .pdf e imágenes. Las extensiones serán restringidas para que solo se puedan subir archivos de texto, imágenes o archivos PDF. Los archivos de imágenes y archivos PDF serán codificados en base64 para su almacenamiento en la estructura. No será posible agregar archivos con el mismo nombre en la misma ruta. Si ya existe un archivo con el mismo nombre, se asignará un alias adicional. Por ejemplo, si el archivo que se intenta cargar se llama "a.txt" y ya existe otro archivo con el mismo nombre, se le asignará el nombre "[COPIA] a.txt". El alias quedará a discreción del usuario.
+* Mensajería
 
-![subir archivo](./images/5.PNG)
+El sistema de mensajería es una herramienta que permite a los estudiantes comunicarse entre sí de manera segura. Al enviar un mensaje, éste se encripta para proteger la privacidad de la conversación, y sólo se desencripta cuando el receptor inicia sesión para leerlo. Para garantizar la seguridad e integridad del sistema de mensajería, se utiliza un sistema de almacenamiento llamado blockchain, que funciona como una lista de nodos. Cada nodo contiene información sobre el mensaje, como el emisor, el receptor, el texto encriptado y la fecha y hora de creación. También se utiliza una función de encriptación llamada SHA256 para proteger la información del mensaje y evitar la corrupción de la cadena de blockchain. En resumen, el sistema de mensajería permite a los estudiantes comunicarse de manera segura y confiable gracias a la tecnología blockchain.
+
+![Vista Principal](./images/6.png)
+
+* Compartir Archivos
+
+La pestaña de compartidos es un apartado en el que el usuario podrá ver los archivos que han sido compartidos con él por otros usuarios del sistema. En este apartado, el usuario encontrará una lista de los archivos compartidos, en la que se mostrará su contenido. Si se trata de un archivo PDF, se utilizará un Iframe para mostrar el contenido. En el caso de las imágenes, se utilizará la etiqueta "img" y se mostrará la imagen cargada en la fase 2. Para los archivos de texto, se utilizará un "textarea" para visualizar el contenido del archivo. De esta manera, el usuario tendrá acceso a los archivos compartidos con él de una manera sencilla y práctica.
+
+![Vista Principal](./images/7.png)
 
 
- * Crear carpeta
+* Reporte de carpetas
 
-De manera similar a los archivos, el usuario podrá crear carpetas dentro del directorio actual.
+La función Reporte Carpetas permitirá al usuario visualizar de manera gráfica las relaciones y conexiones que existen entre las diferentes carpetas del sistema. Al seleccionar esta opción, se generará un grafo dirigido que mostrará de manera clara cómo están relacionadas las carpetas y qué carpetas están conectadas entre sí.
 
-![crear carpeta](./images/6.PNG)
+El grafo dirigido se representará mediante nodos y flechas que indicarán la dirección de la relación. Cada nodo representará una carpeta y las flechas indicarán la dirección de la conexión entre ellas. De esta manera, el usuario podrá entender fácilmente cómo están organizados los archivos dentro del sistema y qué carpetas están relacionadas entre sí.
 
- * Eliminar carpeta
+Esta función será muy útil para los usuarios que necesiten tener una visión general del sistema de archivos, especialmente aquellos que trabajen con grandes cantidades de archivos y carpetas. Además, el reporte podrá ser exportado en diferentes formatos para su posterior análisis o presentación.
 
-El usuario podrá eliminar una carpeta, y la aplicación eliminará tanto la carpeta como todos los archivos y carpetas que contenga. La aplicación solicitará el nombre de la carpeta que se desea eliminar y buscará si existe en la carpeta actual.
-
-![eliminar carpeta](./images/7.PNG)
-
- * Permiso de archivos
-
-El usuario podrá otorgar permisos de sus archivos a otro usuario mediante una interfaz en la que se especifique el usuario, el archivo y los permisos que se le otorgarán. Los permisos se otorgarán mediante los sufijos "r" para leer y "w" para escribir. La información de los permisos se almacenará en una matriz dispersa.
-
-![permiso de archivos](./images/8.PNG)
-
- * Reporte de carpetas
-
- El usuario tendrá la opción de crear un reporte del árbol N-ario de archivos que tenga almacenado en su cuenta.
- 
- ![reporte de carpetas](./images/9.PNG)
-
- * Reporte de archivos
- El usuario tendrá la opción de crear un reporte de la matriz dispersa que contenga los permisos de los archivos.
-
-![reporte de archivos](./images/10.PNG)
-
- * Reporte de bitacora
-
- El sistema mantendrá una bitácora que registrará todas las acciones realizadas por los usuarios no administradores. Cada vez que se cree o elimine un archivo o carpeta, se mostrará una lista enlazada circular con la información de la acción realizada en la bitácora. De esta manera, se llevará un registro de las actividades realizadas en el sistema por los usuarios no administradores.
-
- ![reporte de bitacora](./images/11.PNG)
+![Vista Principal](./images/8.png)

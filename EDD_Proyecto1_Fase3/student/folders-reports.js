@@ -9,6 +9,7 @@ const setGraphvizImage = () => {
     const tree = getDirectoryTree(session.user.id);
 
     console.log(tree)
+    console.log(tree.graphviz())
 
     const url = 'https://quickchart.io/graphviz?graph=' + tree.graphviz();
 

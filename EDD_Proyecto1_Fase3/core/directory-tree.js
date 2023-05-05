@@ -3,8 +3,10 @@ import { FileDetail } from './index.js';
 export class Directory {
     constructor(name) {
         this.name = name;
-        this.children = [];
         this.filesDetails = [];
+
+
+        this.children = [];
     }
 
     searchDirectory(subDir) {
@@ -12,7 +14,7 @@ export class Directory {
     }
 
     graphvizNodeName() {
-        return this.name == '' ? 'root' : this.name.replace(/ /g, '_').replace('.', '_');
+        return this.name == '' ? 'root' : this.name.replace(/ /g, '_').replace('.', '_').replace('[', '').replace(']', '');
     }
 
     graphvizNodeLabel() {

@@ -1,29 +1,30 @@
 import { Directory } from "./index.js";
 
-export class DirectoryAdjacencyNode extends Directory {
-
-}
-
 export class DirectoryGraph {
 
     constructor() {
 
-        this.root = new DirectoryAdjacencyNode('/'.split('/').pop());
+        this.root = new Directory('/'.split('/').pop());
         this.adjacencyMatrix = {};
     }
 
     addVertex(adjNode) {
+
+        if (adjNode.name.trim() == '') {
+            this.root = adjNode;
+        }
+
         this.adjacencyMatrix[adjNode.name] = [];
     }
 
     addEdge(adjNode1, adjNode2) {
+
 
         if (!this.adjacencyMatrix[adjNode1.name] || !this.adjacencyMatrix[adjNode2.name]) {
             return;
         }
 
         this.adjacencyMatrix[adjNode1.name].push(adjNode2);
-        // this.adjacencyMatrix[adjNode2.name].push(adjNode1);
 
     }
 
@@ -41,6 +42,7 @@ export class DirectoryGraph {
             currentDirectory = this.root;
             pathParts = pathParts.slice(1); // Remove root
         }
+
 
         if (!currentDirectory) {
             return null;

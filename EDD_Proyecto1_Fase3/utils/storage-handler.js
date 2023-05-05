@@ -114,6 +114,8 @@ export const setDirectoryTree = (studentId, directoryTree) => {
     }
 
     setDirectoryGraph(studentId, directoryTree);
+
+    console.log(directoryTree);
 }
 
 const parseDirectoryTree = (directoryTree) => {
@@ -370,7 +372,6 @@ export const getDirectoryGraph = () => {
 
         // Add vertex
         graph.addVertex(directory);
-
         // Add edges
         directory.children.forEach((child) => {
             traverse(child);

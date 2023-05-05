@@ -1,5 +1,5 @@
 import { renderCards } from './cards.js';
-import { getSession, getDirectoryTree, setDirectoryTree, getStudentsHashTable, setCurrentDirectory, getCurrentDirectory, getSessionBinacle, getSharedFiles } from '../utils/storage-handler.js';
+import { getSession, getDirectoryTree, setDirectoryTree, getStudentsHashTable, setCurrentDirectory, getCurrentDirectory, getSessionBinacle, getSharedFiles, getDirectoryGraph, saveSessionBinnacle } from '../utils/storage-handler.js';
 import { File as CustomFile, Permission } from '../core/index.js';
 
 
@@ -18,6 +18,7 @@ const deleteDirectoryButton = document.getElementById('delete-directory-button')
 
 const session = getSession();
 const directoryTree = getDirectoryTree(session.user.id);
+const directoryGraph = getDirectoryGraph()
 const studentHashTable = getStudentsHashTable();
 const binnacle = getSessionBinacle()
 
@@ -34,9 +35,12 @@ dir = dir ? dir : getCurrentDirectory();
 pathSearch.value = dir;
 currentFolderSpan.innerText = dir;
 
-const currentDirectory = directoryTree.getDirectory(dir);
+const treeDirectory = directoryTree.getDirectory(dir); // * From the tree, used to add new files and folders
+console.log(directoryGraph)
+const graphDirectory = directoryGraph.getDirectory(dir) // * From the graph, use to navigate
 
-if (!currentDirectory) {
+
+if (!graphDirectory) {
     alert('La carpeta no existe');
     window.location.href = `dashboard.html?dir=${getCurrentDirectory()}`;
 }
@@ -47,9 +51,8 @@ setCurrentDirectory(dir);
 
 directoryName.innerText = "Carpeta actual: " + dir + ""; // ? Breadcumb
 
-renderCards(currentDirectory.children, dir);
-
-renderCards(currentDirectory.getFiles());
+renderCards(graphDirectory.children, dir);
+renderCards(graphDirectory.getFiles());
 
 // Fill student select
 studentHashTable.elements().filter(s => s.id != session.user.id).forEach((student) => {
@@ -62,9 +65,11 @@ studentHashTable.elements().filter(s => s.id != session.user.id).forEach((studen
 // * ----------------- Forms ----------------- * //
 
 newFolderForm.addEventListener('submit', (event) => {
+
     const newFolderName = document.getElementById('new-folder-name').value;
-    currentDirectory.addDirectory(newFolderName);
+    treeDirectory.addDirectory(newFolderName);
     setDirectoryTree(session.user.id, directoryTree);
+
 
     binnacle.add(`Se creo la carpeta ${newFolderName} en la carpeta ${dir}`);
     saveSessionBinnacle(binnacle);
@@ -81,10 +86,11 @@ uploadFileForm.addEventListener('submit', (event) => {
     reader.onload = (e) => {
         const content = btoa(reader.result);
         const createdFile = new CustomFile(file.name, content);
-        currentDirectory.addFile(createdFile);
+        treeDirectory.addFile(createdFile);
         console.log('File uploaded')
-        console.log(currentDirectory)
+        console.log(treeDirectory)
         setDirectoryTree(session.user.id, directoryTree);
+
     }
 
     binnacle.add(`Se subio el archivo ${file.name} en la carpeta ${dir}`);
@@ -105,7 +111,7 @@ addPermissionForm.addEventListener('submit', (event) => {
     const fileNameInput = document.getElementById('file-name-input');
 
     // Search file
-    const fileDetail = currentDirectory.filesDetails.find((detail) => detail.file.name === fileNameInput.value);
+    const fileDetail = treeDirectory.filesDetails.find((detail) => detail.file.name === fileNameInput.value);
 
     if (!fileDetail) {
         alert('El archivo no existe');
@@ -125,6 +131,7 @@ addPermissionForm.addEventListener('submit', (event) => {
     fileDetail.addPermission(user, permission);
     setDirectoryTree(session.user.id, directoryTree);
 
+
     binnacle.add(`Se agrego el permiso ${permissionName} al archivo ${fileNameInput.value} para el usuario ${user.name} - ${user.id}`);
     saveSessionBinnacle(binnacle);
 
@@ -142,6 +149,7 @@ deleteDirectoryButton.addEventListener('click', (event) => {
 
     directoryTree.deleteDirectory(dir);
     setDirectoryTree(session.user.id, directoryTree);
+
 
     binnacle.add(`Se elimino la carpeta ${dir}`);
     saveSessionBinnacle(binnacle);
