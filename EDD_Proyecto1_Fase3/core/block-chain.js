@@ -94,4 +94,42 @@ export class BlockChain {
             .catch(error => console.log(error))
         return result
     }
+
+    graphviz() {
+
+        return `
+        digraph G {
+            rankdir=TB;
+            node [shape=record];
+            ${this.graphvizNodes()}
+            ${this.graphvizEdges()}
+
+        }
+        `
+
+    }
+
+    graphvizNodes() {
+
+        let result = ''
+        let aux = this.start
+        while (aux) {
+            result += `node${aux.data.index} [label="{ TimeStamp ${aux.formatDate()} \\n Emisor: ${aux.data.emiter} \\n Repector: ${aux.data.receptor} \\n PreviousHash ${aux.data.previousHash} }"];\n`
+            aux = aux.next
+        }
+        return result
+    }
+
+    graphvizEdges() {
+
+        let result = ''
+        let aux = this.start
+        while (aux) {
+            if (aux.next) {
+                result += `node${aux.data.index}:f0 -> node${aux.next.data.index}:f0;\n`
+            }
+            aux = aux.next
+        }
+        return result
+    }
 }

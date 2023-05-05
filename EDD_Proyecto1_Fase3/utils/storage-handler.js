@@ -37,6 +37,7 @@ export const getSession = () => {
 
 export const setStudentTree = (studentTree) => {
     localStorage.setItem('studentTree', JSON.stringify(studentTree));
+    localStorage.setItem('hashTable', JSON.stringify(studentTree));
 }
 
 export const getStudentTree = () => {
@@ -217,7 +218,29 @@ export const saveSessionBinnacle = (binnacle) => {
 }
 
 export const getStudentsHashTable = () => {
-    const tree = getStudentTree();
+
+    const serializeStudentTree = localStorage.getItem('hashTable');
+    const parsedStudentTree = serializeStudentTree ? JSON.parse(serializeStudentTree) : null;
+
+    const tree = new AVLTree();
+
+    if (parsedStudentTree && parsedStudentTree.root) {
+        // inorder insert
+        const insert = (node) => {
+            if (node.left) {
+                insert(node.left);
+            }
+
+            tree.insert(transformToStudent(node.data));
+
+            if (node.right) {
+                insert(node.right);
+            }
+        }
+
+        insert(parsedStudentTree.root);
+    }
+
     const hashTable = new HashTable();
 
     tree.inorder().forEach(student => {
