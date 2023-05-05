@@ -31,19 +31,19 @@ La aplicación dispondrá de una página principal que permitirá a los estudian
 
 Para acceder a las funciones de administrador, se debe contar con los permisos necesarios y una vez dentro, se encontrará con una vista principal que mostrará diferentes opciones para la gestión del sistema.
 
-![Vista Principal](./images/1.png)
+![Vista Principal](./images/1.PNG)
 
 
 En la tabla general de permisos de usuarios, se podrá visualizar los archivos compartidos dentro del sistema. Esta tabla mostrará información relevante como el Usuario Propietario, el Usuario Destino, la Ruta del archivo, el Nombre de Archivo y el Permiso del archivo. Con esta información, el administrador tendrá un mayor control sobre el acceso a los archivos compartidos por los usuarios del sistema.
-![Vista Principal](./images/2.png)
+![Vista Principal](./images/2.PNG)
 
 
 Además, se ha incluido un botón para generar el reporte de mensajes. Este botón permitirá generar un reporte detallado de los mensajes enviados y recibidos por los usuarios del sistema. De esta forma, el administrador podrá tener una visión general del uso que los usuarios están haciendo del sistema y tomar decisiones informadas en caso de ser necesario.
 
-![Vista Principal](./images/3.png)
+![Vista Principal](./images/3.PNG)
 
 
-![Vista Principal](./images/4.png)
+![Vista Principal](./images/4.PNG)
 
 
 
@@ -53,19 +53,19 @@ Además, se ha incluido un botón para generar el reporte de mensajes. Este bot�
 
 Para acceder a las funciones de usuario, se debe contar con los permisos necesarios y una vez dentro, se encontrará con una vista principal que mostrará diferentes opciones para la gestión del sistema.
 
-![Vista Principal](./images/5.png)
+![Vista Principal](./images/5.PNG)
 
 * Mensajería
 
 El sistema de mensajería es una herramienta que permite a los estudiantes comunicarse entre sí de manera segura. Al enviar un mensaje, éste se encripta para proteger la privacidad de la conversación, y sólo se desencripta cuando el receptor inicia sesión para leerlo. Para garantizar la seguridad e integridad del sistema de mensajería, se utiliza un sistema de almacenamiento llamado blockchain, que funciona como una lista de nodos. Cada nodo contiene información sobre el mensaje, como el emisor, el receptor, el texto encriptado y la fecha y hora de creación. También se utiliza una función de encriptación llamada SHA256 para proteger la información del mensaje y evitar la corrupción de la cadena de blockchain. En resumen, el sistema de mensajería permite a los estudiantes comunicarse de manera segura y confiable gracias a la tecnología blockchain.
 
-![Vista Principal](./images/6.png)
+![Vista Principal](./images/6.PNG)
 
 * Compartir Archivos
 
 La pestaña de compartidos es un apartado en el que el usuario podrá ver los archivos que han sido compartidos con él por otros usuarios del sistema. En este apartado, el usuario encontrará una lista de los archivos compartidos, en la que se mostrará su contenido. Si se trata de un archivo PDF, se utilizará un Iframe para mostrar el contenido. En el caso de las imágenes, se utilizará la etiqueta "img" y se mostrará la imagen cargada en la fase 2. Para los archivos de texto, se utilizará un "textarea" para visualizar el contenido del archivo. De esta manera, el usuario tendrá acceso a los archivos compartidos con él de una manera sencilla y práctica.
 
-![Vista Principal](./images/7.png)
+![Vista Principal](./images/7.PNG)
 
 
 * Reporte de carpetas
@@ -76,4 +76,4 @@ El grafo dirigido se representará mediante nodos y flechas que indicarán la di
 
 Esta función será muy útil para los usuarios que necesiten tener una visión general del sistema de archivos, especialmente aquellos que trabajen con grandes cantidades de archivos y carpetas. Además, el reporte podrá ser exportado en diferentes formatos para su posterior análisis o presentación.
 
-![Vista Principal](./images/8.png)
+![Vista Principal](./images/8.PNG)
