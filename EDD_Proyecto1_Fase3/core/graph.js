@@ -75,17 +75,18 @@ export class DirectoryGraph {
     graphvizTraverse(adjNode, level) {
 
         const children = this.adjacencyMatrix[adjNode.name];
+        const nextLevel = level + 1;
 
         if (!children) {
             return '';
         }
 
         // Node declaration
-        let graph = `${adjNode.graphvizNodeName()} [label="${adjNode.graphvizNodeLabel()}" ${adjNode == this.root ? 'shape=box' : ''}];\n`
+        let graph = `${adjNode.graphvizNodeName()} [label="${adjNode.graphvizNodeLabel()}" ${adjNode == this.root ? ', shape=box' : ''}];\n`
 
         children.forEach((child) => {
-            graph += this.graphvizTraverse(child, level++) + '\n';
-            graph += `${adjNode.graphvizNodeName()} -- ${child.graphvizNodeName()}\n`;
+            graph += this.graphvizTraverse(child, nextLevel) + '\n';
+            graph += `${adjNode.graphvizNodeName()} -- ${child.graphvizNodeName()} [label=${level}];\n`;
         });
 
         return graph;

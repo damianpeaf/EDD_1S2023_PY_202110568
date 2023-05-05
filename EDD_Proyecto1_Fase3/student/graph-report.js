@@ -1,26 +1,14 @@
-import { DirectoryGraph } from '../core/index.js'
-import { getDirectoryTree, getSession } from '../utils/index.js';
+import { getDirectoryGraph } from "../utils/index.js";
 
-const graph = new DirectoryGraph();
+const graph = getDirectoryGraph();
 
-// Create from directory tree
-const session = getSession()
-const directoryTree = getDirectoryTree(session.user.id);
+const setGraphvizImage = () => {
 
-const traverse = (directory) => {
+    console.log(graph)
 
-    if (!directory) return
-
-    // Add vertex
-    graph.addVertex(directory);
-
-    // Add edges
-    directory.children.forEach((child) => {
-        traverse(child);
-        graph.addEdge(directory, child);
-    });
+    const image = document.getElementById('student-tree');
+    const url = 'https://quickchart.io/graphviz?graph=' + graph.graphviz();
+    image.setAttribute('src', url);
 }
 
-traverse(directoryTree.root);
-
-console.log(graph.graphviz())
+setGraphvizImage();

@@ -1,5 +1,5 @@
 import { Binnacle } from '../core/binnacle.js';
-import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail, HashTable, BlockChain, Block } from '../core/index.js';
+import { AVLTree, Student, DirectoryTree, FileDetail, File, Permission, PermissionDetail, HashTable, BlockChain, Block, DirectoryGraph } from '../core/index.js';
 
 const adminUser = {
     username: 'Admin',
@@ -77,11 +77,24 @@ const transformToStudent = (data) => {
 
 export const setStudentsDirectoryTrees = (directoryTree) => {
     localStorage.setItem('directoryTree', JSON.stringify(directoryTree));
+    localStorage.setItem('directoryGraph', JSON.stringify(directoryTree));
 }
 
 export const getDirectoryTree = (studentId) => {
 
     const serializeDirectoryTree = localStorage.getItem('directoryTree');
+    const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
+
+    if (parsedDirectoryTree) {
+        return parseDirectoryTree(parsedDirectoryTree[studentId]);
+    }
+
+    return null;
+}
+
+export const getDirectoryGraphAux = (studentId) => {
+
+    const serializeDirectoryTree = localStorage.getItem('directoryGraph');
     const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
 
     if (parsedDirectoryTree) {
@@ -99,6 +112,8 @@ export const setDirectoryTree = (studentId, directoryTree) => {
         parsedDirectoryTree[studentId] = directoryTree;
         localStorage.setItem('directoryTree', JSON.stringify(parsedDirectoryTree));
     }
+
+    setDirectoryGraph(studentId, directoryTree);
 }
 
 const parseDirectoryTree = (directoryTree) => {
@@ -338,4 +353,42 @@ export const getBlockChain = () => {
 
     return blockChain;
 
+}
+
+
+export const getDirectoryGraph = () => {
+
+    const graph = new DirectoryGraph();
+
+    // Create from directory tree
+    const session = getSession()
+    const directoryTree = getDirectoryGraphAux(session.user.id);
+
+    const traverse = (directory) => {
+
+        if (!directory) return
+
+        // Add vertex
+        graph.addVertex(directory);
+
+        // Add edges
+        directory.children.forEach((child) => {
+            traverse(child);
+            graph.addEdge(directory, child);
+        });
+    }
+
+    traverse(directoryTree.root);
+
+    return graph;
+}
+
+export const setDirectoryGraph = (studentId, directoryTree) => {
+    const serializeDirectoryTree = localStorage.getItem('directoryGraph');
+    const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
+
+    if (parsedDirectoryTree) {
+        parsedDirectoryTree[studentId] = directoryTree;
+        localStorage.setItem('directoryGraph', JSON.stringify(parsedDirectoryTree));
+    }
 }
