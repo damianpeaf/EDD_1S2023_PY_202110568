@@ -94,7 +94,7 @@ export const getDirectoryTree = (studentId) => {
 
 export const getDirectoryGraphAux = (studentId) => {
 
-    const serializeDirectoryTree = localStorage.getItem('directoryGraph');
+    const serializeDirectoryTree = localStorage.getItem('directoryTree');
     const parsedDirectoryTree = serializeDirectoryTree ? JSON.parse(serializeDirectoryTree) : null;
 
     if (parsedDirectoryTree) {
@@ -111,11 +111,12 @@ export const setDirectoryTree = (studentId, directoryTree) => {
     if (parsedDirectoryTree) {
         parsedDirectoryTree[studentId] = directoryTree;
         localStorage.setItem('directoryTree', JSON.stringify(parsedDirectoryTree));
+        // localStorage.setItem('directoryGraph', JSON.stringify(parsedDirectoryTree));
     }
 
-    setDirectoryGraph(studentId, directoryTree);
+    // setDirectoryGraph(studentId, directoryTree);
 
-    console.log(directoryTree);
+    // console.log(directoryTree);
 }
 
 const parseDirectoryTree = (directoryTree) => {

@@ -76,28 +76,35 @@ newFolderForm.addEventListener('submit', (event) => {
 
 });
 
-uploadFileForm.addEventListener('submit', (event) => {
+uploadFileForm.addEventListener('submit', async (event) => {
     const file = document.getElementById('upload-file').files[0];
     const reader = new FileReader();
 
-    // Codificate to base64
+    // Crear promesa
+    const onloadPromise = new Promise((resolve) => {
+        reader.onload = (e) => {
+            const content = btoa(reader.result);
+            const createdFile = new CustomFile(file.name, content);
+            treeDirectory.addFile(createdFile);
+            console.log('File uploaded')
+            console.log(treeDirectory)
+            setDirectoryTree(session.user.id, directoryTree);
+
+            // Resolver promesa
+            resolve();
+        }
+    });
+
+    // Codificar a base64
     reader.readAsDataURL(file);
 
-    reader.onload = (e) => {
-        const content = btoa(reader.result);
-        const createdFile = new CustomFile(file.name, content);
-        treeDirectory.addFile(createdFile);
-        console.log('File uploaded')
-        console.log(treeDirectory)
-        setDirectoryTree(session.user.id, directoryTree);
-
-    }
+    // Esperar a que la promesa se resuelva antes de continuar
+    await onloadPromise;
 
     binnacle.add(`Se subio el archivo ${file.name} en la carpeta ${dir}`);
     saveSessionBinnacle(binnacle);
 
     alert('Archivo subido exitosamente');
-
 });
 
 searchButton.addEventListener('click', (event) => {
